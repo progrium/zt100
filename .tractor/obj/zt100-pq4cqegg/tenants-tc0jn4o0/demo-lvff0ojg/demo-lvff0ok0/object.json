@@ -1,0 +1,28 @@
+{
+  "ID": "buulde6g10l9lvff0ok0",
+  "Name": "demo",
+  "Attrs": {},
+  "ParentID": "buuld8mg10l9lvff0ojg",
+  "Children": [
+    [
+      "buulde6g10l9lvff0ol0",
+      "index"
+    ],
+    [
+      "buulde6g10l9lvff0om0",
+      "pricing"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "buulde6g10l9lvff0ok0",
+      "ID": "",
+      "Name": "zt100.App",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

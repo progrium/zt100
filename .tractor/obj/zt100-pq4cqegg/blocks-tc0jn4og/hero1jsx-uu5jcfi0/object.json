@@ -1,0 +1,32 @@
+{
+  "ID": "buujqk6g10l8uu5jcfi0",
+  "Name": "hero1.jsx",
+  "Attrs": {},
+  "ParentID": "buujlbug10l8tc0jn4og",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buujqk6g10l8uu5jcfi0",
+      "ID": "",
+      "Name": "file.Reference",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/hero1.jsx",
+        "SyncDelete": false,
+        "SyncName": true
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buujqk6g10l8uu5jcfi0",
+      "ID": "",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

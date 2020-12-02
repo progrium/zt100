@@ -1,0 +1,19 @@
+{
+  "ID": "buujp7ug10l8uu5jcfgg",
+  "Name": "finance",
+  "Attrs": {},
+  "ParentID": "buujl4mg10l8tc0jn4ng",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buujp7ug10l8uu5jcfgg",
+      "ID": "",
+      "Name": "zt100.App",
+      "Enabled": false,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

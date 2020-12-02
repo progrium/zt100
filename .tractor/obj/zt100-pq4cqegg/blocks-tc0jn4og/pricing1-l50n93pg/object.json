@@ -1,0 +1,32 @@
+{
+  "ID": "buulajug10l9l50n93pg",
+  "Name": "pricing1.jsx",
+  "Attrs": {},
+  "ParentID": "buujlbug10l8tc0jn4og",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buulajug10l9l50n93pg",
+      "ID": "",
+      "Name": "file.Reference",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/pricing1.jsx",
+        "SyncDelete": false,
+        "SyncName": true
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buulajug10l9l50n93pg",
+      "ID": "",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

@@ -1,0 +1,85 @@
+{
+  "ID": "buujlbug10l8tc0jn4og",
+  "Name": "Blocks",
+  "Attrs": {},
+  "ParentID": "buujj4ug10l8pq4cqegg",
+  "Children": [
+    [
+      "buujqk6g10l8uu5jcfhg",
+      "feature1.jsx"
+    ],
+    [
+      "buukh66g10l9h349ph7g",
+      "feature2.jsx"
+    ],
+    [
+      "buujqk6g10l8uu5jcfi0",
+      "hero1.jsx"
+    ],
+    [
+      "buul9heg10l9l50n93kg",
+      "hero2.jsx"
+    ],
+    [
+      "buul9q6g10l9l50n93lg",
+      "content1.jsx"
+    ],
+    [
+      "buul9umg10l9l50n93mg",
+      "content2.jsx"
+    ],
+    [
+      "buula4mg10l9l50n93ng",
+      "cta1.jsx"
+    ],
+    [
+      "buuladmg10l9l50n93og",
+      "cta2.jsx"
+    ],
+    [
+      "buulajug10l9l50n93pg",
+      "pricing1.jsx"
+    ],
+    [
+      "buulaoug10l9l50n93qg",
+      "login1.jsx"
+    ],
+    [
+      "buulasmg10l9l50n93rg",
+      "login2.jsx"
+    ],
+    [
+      "bv3plpmg10l0lrrsjsfg",
+      "header1.jsx"
+    ],
+    [
+      "bv3pmq6g10l0lrrsjsgg",
+      "footer1.jsx"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "buujlbug10l8tc0jn4og",
+      "ID": "",
+      "Name": "zt100.BlockLibrary",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    },
+    {
+      "ObjectID": "buujlbug10l8tc0jn4og",
+      "ID": "",
+      "Name": "file.Path",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Filepath": "/Users/progrium/Source/github.com/manifold/tractor/local/zt100/blocks",
+        "SyncDelete": false,
+        "SyncName": false
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

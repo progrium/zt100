@@ -1,0 +1,32 @@
+{
+  "ID": "buukh66g10l9h349ph7g",
+  "Name": "feature2.jsx",
+  "Attrs": {},
+  "ParentID": "buujlbug10l8tc0jn4og",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buukh66g10l9h349ph7g",
+      "ID": "",
+      "Name": "file.Reference",
+      "Enabled": false,
+      "Attrs": null,
+      "Value": {
+        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/feature2.jsx",
+        "SyncDelete": false,
+        "SyncName": true
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buukh66g10l9h349ph7g",
+      "ID": "",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

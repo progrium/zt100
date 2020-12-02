@@ -1,0 +1,24 @@
+{
+  "ID": "buvudgmg10lbaei034r0",
+  "Name": "demo",
+  "Attrs": {},
+  "ParentID": "buvu9lug10lauk336hvg",
+  "Children": [
+    [
+      "buvudpug10lbaei034rg",
+      "index"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "buvudgmg10lbaei034r0",
+      "ID": "",
+      "Name": "zt100.App",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

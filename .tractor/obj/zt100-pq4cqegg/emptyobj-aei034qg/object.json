@@ -1,0 +1,77 @@
+{
+  "ID": "buvuc8ug10lbaei034qg",
+  "Name": "EmptyObject",
+  "Attrs": {},
+  "ParentID": "buujj4ug10l8pq4cqegg",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buvuc8ug10lbaei034qg",
+      "ID": "",
+      "Name": "tcp.Listener",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Address": ":9999"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buvuc8ug10lbaei034qg",
+      "ID": "",
+      "Name": "http.FileServer",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Debug": false,
+        "Filesystem": null,
+        "LiveUpdates": false
+      },
+      "Refs": [
+        {
+          "ObjectID": "buvuc8ug10lbaei034qg",
+          "Path": "1:http.FileServer/Filesystem",
+          "TargetID": "buvuc8ug10lbaei034qg/2:file.Path"
+        }
+      ]
+    },
+    {
+      "ObjectID": "buvuc8ug10lbaei034qg",
+      "ID": "",
+      "Name": "file.Path",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Filepath": "/Users/progrium",
+        "SyncDelete": false,
+        "SyncName": false
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buvuc8ug10lbaei034qg",
+      "ID": "",
+      "Name": "http.Server",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Handler": null,
+        "Listener": null,
+        "Server": null
+      },
+      "Refs": [
+        {
+          "ObjectID": "buvuc8ug10lbaei034qg",
+          "Path": "3:http.Server/Listener",
+          "TargetID": "buvuc8ug10lbaei034qg/0:tcp.Listener"
+        },
+        {
+          "ObjectID": "buvuc8ug10lbaei034qg",
+          "Path": "3:http.Server/Handler",
+          "TargetID": "buvuc8ug10lbaei034qg/1:http.FileServer"
+        }
+      ]
+    }
+  ],
+  "Main": ""
+}

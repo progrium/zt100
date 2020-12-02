@@ -1,0 +1,25 @@
+{
+  "ID": "bv1gbqeg10l8859k30lg",
+  "Name": "EmptyObject",
+  "Attrs": {},
+  "ParentID": "buujj4ug10l8pq4cqegg",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv1gbqeg10l8859k30lg",
+      "ID": "",
+      "Name": "debug.MapField",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Foo": "",
+        "Map": {
+          "123": "bar",
+          "foo": "123"
+        }
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

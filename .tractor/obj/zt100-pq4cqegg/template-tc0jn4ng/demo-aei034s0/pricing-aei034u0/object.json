@@ -1,0 +1,43 @@
+{
+  "ID": "buvui3ug10lbaei034u0",
+  "Name": "pricing",
+  "Attrs": {},
+  "ParentID": "buvui3ug10lbaei034s0",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buvui3ug10lbaei034u0",
+      "ID": "",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Title": "Pricing"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buvui3ug10lbaei034u0",
+      "ID": "",
+      "Name": "zt100.Section",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Overrides": {}
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buvui3ug10lbaei034u0",
+      "ID": "",
+      "Name": "zt100.Section",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Overrides": {}
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

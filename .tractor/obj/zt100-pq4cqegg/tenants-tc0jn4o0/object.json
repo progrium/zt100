@@ -1,0 +1,149 @@
+{
+  "ID": "buujl9mg10l8tc0jn4o0",
+  "Name": "Tenants",
+  "Attrs": {},
+  "ParentID": "buujj4ug10l8pq4cqegg",
+  "Children": [
+    [
+      "buujoieg10l8uu5jcfeg",
+      "progrium"
+    ],
+    [
+      "buuld8mg10l9lvff0ojg",
+      "demo"
+    ],
+    [
+      "buvu9lug10lauk336hvg",
+      "twilio"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "zt100.Server",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Blocks": "/zt100/Blocks",
+        "Builder": null,
+        "StaticHandler": null
+      },
+      "Refs": [
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "0:zt100.Server/StaticHandler",
+          "TargetID": "buujl9mg10l8tc0jn4o0/5:http.FileServer"
+        },
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "0:zt100.Server/Builder",
+          "TargetID": "buujl9mg10l8tc0jn4o0/4:make.JSX"
+        }
+      ]
+    },
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "tcp.Listener",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Address": ":9090"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "http.Server",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Handler": null,
+        "Listener": null,
+        "Server": null
+      },
+      "Refs": [
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "2:http.Server/Listener",
+          "TargetID": "buujl9mg10l8tc0jn4o0/1:tcp.Listener"
+        },
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "2:http.Server/Handler",
+          "TargetID": "buujl9mg10l8tc0jn4o0/0:zt100.Server"
+        }
+      ]
+    },
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "make.Filesystem",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Builders": [
+          null
+        ],
+        "Mutex": {},
+        "ReadFS": null
+      },
+      "Refs": [
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "3:make.Filesystem/ReadFS",
+          "TargetID": "buujl9mg10l8tc0jn4o0/6:ui.StudioPath"
+        },
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "3:make.Filesystem/Builders/0",
+          "TargetID": "buujl9mg10l8tc0jn4o0/4:make.JSX"
+        }
+      ]
+    },
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "make.JSX",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "DstExt": ".mjs",
+        "Factory": "h",
+        "SrcExt": ".jsx"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "http.FileServer",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Debug": false,
+        "Filesystem": null,
+        "LiveUpdates": false
+      },
+      "Refs": [
+        {
+          "ObjectID": "buujl9mg10l8tc0jn4o0",
+          "Path": "5:http.FileServer/Filesystem",
+          "TargetID": "buujl9mg10l8tc0jn4o0/3:make.Filesystem"
+        }
+      ]
+    },
+    {
+      "ObjectID": "buujl9mg10l8tc0jn4o0",
+      "ID": "",
+      "Name": "ui.StudioPath",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

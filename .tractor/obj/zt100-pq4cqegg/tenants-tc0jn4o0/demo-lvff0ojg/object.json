@@ -1,0 +1,27 @@
+{
+  "ID": "buuld8mg10l9lvff0ojg",
+  "Name": "demo",
+  "Attrs": {},
+  "ParentID": "buujl9mg10l8tc0jn4o0",
+  "Children": [
+    [
+      "buulde6g10l9lvff0ok0",
+      "demo"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "buuld8mg10l9lvff0ojg",
+      "ID": "",
+      "Name": "zt100.Tenant",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#D31D27",
+        "Domain": "wellsfargo.com"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

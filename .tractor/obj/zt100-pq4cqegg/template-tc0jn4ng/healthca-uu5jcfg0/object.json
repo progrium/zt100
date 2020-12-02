@@ -1,0 +1,19 @@
+{
+  "ID": "buujp1ug10l8uu5jcfg0",
+  "Name": "healthcare",
+  "Attrs": {},
+  "ParentID": "buujl4mg10l8tc0jn4ng",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "buujp1ug10l8uu5jcfg0",
+      "ID": "",
+      "Name": "zt100.App",
+      "Enabled": false,
+      "Attrs": null,
+      "Value": {},
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}
