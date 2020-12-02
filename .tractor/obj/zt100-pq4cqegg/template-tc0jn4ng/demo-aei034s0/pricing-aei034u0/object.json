@@ -12,6 +12,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Name": "pricing",
+        "OID": "buvui3ug10lbaei034u0",
         "Title": "Pricing"
       },
       "Refs": null
@@ -23,6 +25,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Key": "1:zt100.Section",
+        "OID": "buvui3ug10lbaei034u0",
         "Overrides": {}
       },
       "Refs": null
@@ -34,6 +38,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Key": "2:zt100.Section",
+        "OID": "buvui3ug10lbaei034u0",
         "Overrides": {}
       },
       "Refs": null

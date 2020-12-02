@@ -2,6 +2,8 @@ package zt100
 
 import (
 	_ "image/png"
+
+	"github.com/manifold/tractor/pkg/manifold"
 )
 
 type AppLibrary struct {
@@ -22,34 +24,17 @@ type MenuItem struct {
 type Section struct {
 	Block     *Block
 	Overrides map[string]string
+	Key       string `tractor:"hidden"`
+	OID       string `tractor:"hidden"`
+	object    manifold.Object
 }
 
-var Template = `<html>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/static/tailwind-2.0.1.css" rel="stylesheet">
-  <script src="/vnd/mithril-2.0.4.min.js"></script>
-  <script type="module" src="/lib/util/h.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/themes/default.min.css" type="text/css" media="screen" charset="utf-8">
-  <script>var config = %s;</script>
-  <style>
-	:root {
-		--color-primary: %s;
-	}
-  </style>
-</head>
-<body>
-	<main></main>
-	<script type="module">
-		(async function() {
-			h.render(document.querySelector("main"), h("main", {}, [
-				%s
-			]))
-		}());
-		new EventSource(location.href).onmessage = (e) => location.reload();
-	</script>
-</body>
-</html>`
+func (s *Section) Mounted(obj manifold.Object) error {
+	s.object = obj
+	_, com := obj.FindComponent(s)
+	s.Key = com.Key()
+	s.OID = obj.ID()
+	return nil
+}
+
+var Template = ``

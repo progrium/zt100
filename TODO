@@ -1,12 +1,10 @@
 
 
 app builder ui
-
-    datadrive ...
-
-    sort, remove blocks 
-    jquery: sortable pages, inline new page, modals
-
+    new page w/ prompt
+    sort sections
+    modal system
+    
     new tenant modal
     new app modal
     new section modal

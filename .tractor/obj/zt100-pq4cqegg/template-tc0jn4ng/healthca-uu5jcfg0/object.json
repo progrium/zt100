@@ -11,7 +11,10 @@
       "Name": "zt100.App",
       "Enabled": false,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "healthcare",
+        "OID": "buujp1ug10l8uu5jcfg0"
+      },
       "Refs": null
     }
   ],

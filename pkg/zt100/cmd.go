@@ -2,6 +2,7 @@ package zt100
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/manifold/tractor/pkg/core/cmd"
 	"github.com/manifold/tractor/pkg/manifold/library"
@@ -66,6 +67,37 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 	})
 
 	cmds.Register(cmd.Definition{
+		ID:       "zt100.new-section",
+		Label:    "New Page",
+		Category: "zt100",
+		Desc:     "",
+		Run: func(params struct {
+			PageID  string
+			BlockID string
+		}) {
+			p := c.object.Root().FindID(params.PageID)
+			if p == nil {
+				return
+			}
+
+			bo := c.object.Root().FindID(params.BlockID)
+			if bo == nil {
+				return
+			}
+			b := bo.Component("zt100.Block").Pointer().(*Block)
+
+			pc := library.Lookup("zt100.Section").New()
+			pc.SetEnabled(true)
+			pc.SetField("Block", b)
+			p.AppendComponent(pc)
+
+			if err := c.Objects.MountedComponent(pc, p); err != nil {
+				log.Println(err)
+			}
+		},
+	})
+
+	cmds.Register(cmd.Definition{
 		ID:       "zt100.new-page",
 		Label:    "New Page",
 		Category: "zt100",
@@ -88,6 +120,7 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 				p = c.object.Root()
 			}
 			p.AppendChild(n)
+
 		},
 	})
 

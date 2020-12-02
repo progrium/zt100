@@ -11,6 +11,10 @@
     [
       "buulq2mg10l9ombbh8ag",
       "app2"
+    ],
+    [
+      "bv3vfheg10l30c9ve2gg",
+      "foobar"
     ]
   ],
   "Components": [
@@ -22,7 +26,8 @@
       "Attrs": null,
       "Value": {
         "Color": "#0B0F10",
-        "Domain": "arrows.to"
+        "Domain": "arrows.to",
+        "OID": "buujoieg10l8uu5jcfeg"
       },
       "Refs": null
     }

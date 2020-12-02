@@ -12,6 +12,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Name": "index",
+        "OID": "buvudpug10lbaei034rg",
         "Title": "Home"
       },
       "Refs": null
@@ -24,6 +26,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "1:zt100.Section",
+        "OID": "buvudpug10lbaei034rg",
         "Overrides": {}
       },
       "Refs": [
@@ -42,6 +46,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "2:zt100.Section",
+        "OID": "buvudpug10lbaei034rg",
         "Overrides": {}
       },
       "Refs": [

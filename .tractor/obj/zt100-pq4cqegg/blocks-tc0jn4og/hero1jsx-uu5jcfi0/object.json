@@ -24,7 +24,10 @@
       "Name": "zt100.Block",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "hero1.jsx",
+        "OID": "buujqk6g10l8uu5jcfi0"
+      },
       "Refs": null
     }
   ],

@@ -3,10 +3,10 @@ package zt100
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/gorilla/mux"
 	"github.com/manifold/tractor/pkg/manifold"
@@ -17,6 +17,8 @@ import (
 
 type Page struct {
 	Title string
+	Name  string `tractor:"hidden"`
+	OID   string `tractor:"hidden"`
 
 	events *httplib.EventSource
 	server *Server
@@ -36,6 +38,8 @@ func (p *Page) Mounted(obj manifold.Object) error {
 		}
 		p.Title = strings.Title(name)
 	}
+	p.Name = obj.Name()
+	p.OID = obj.ID()
 
 	var server Server
 	so := comutil.AncestorValue(obj, &server)
@@ -51,6 +55,17 @@ func (p *Page) Mounted(obj manifold.Object) error {
 	return nil
 }
 
+func (p *Page) Sections() (sections []*Section) {
+	for _, com := range p.object.Components() {
+		s, ok := com.Pointer().(*Section)
+		if !ok {
+			continue
+		}
+		sections = append(sections, s)
+	}
+	return sections
+}
+
 func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if p.events.IsEventStream(r) {
 		p.events.ServeHTTP(w, r)
@@ -62,7 +77,7 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
 		return
 	}
-	var el []string
+	var sectionData []interface{}
 	var overrides []map[string]string
 	idx := 0
 	for _, s := range sections {
@@ -74,7 +89,12 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ext := filepath.Ext(bo.Name())
 		name := bo.Name()[:len(bo.Name())-len(ext)]
 		_, com := page.FindComponent(s)
-		el = append(el, fmt.Sprintf(`h((await import("/blocks/%s.js")).default, {overrides: config.Overrides[%d], section: "%s"}, "Hello")`, name, idx, com.Key()))
+		//el = append(el, fmt.Sprintf(`h((await import("/blocks/%s.js")).default, {overrides: config.Overrides[%d], section: "%s"}, "Hello")`, name, idx, com.Key()))
+		sectionData = append(sectionData, map[string]interface{}{
+			"Block": name,
+			"Idx":   idx,
+			"Key":   com.Key(),
+		})
 		idx++
 	}
 	t := tenant.Component("zt100.Tenant").Pointer().(*Tenant)
@@ -91,5 +111,23 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	io.WriteString(w, fmt.Sprintf(Template, string(config), t.Color, strings.Join(el, ",\n")))
+
+	ts, err := template.ParseFiles(
+		"./tmpl/app.page.html",
+	)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = ts.Execute(w, map[string]interface{}{
+		"Config":   string(config),
+		"Color":    t.Color,
+		"Sections": sectionData,
+		"Live":     r.URL.Query().Get("live") != "0",
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	//io.WriteString(w, fmt.Sprintf(Template, string(config), t.Color, strings.Join(el, ",\n")))
 }

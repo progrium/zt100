@@ -24,7 +24,10 @@
       "Name": "zt100.Block",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "cta1.jsx",
+        "OID": "buula4mg10l9l50n93ng"
+      },
       "Refs": null
     }
   ],

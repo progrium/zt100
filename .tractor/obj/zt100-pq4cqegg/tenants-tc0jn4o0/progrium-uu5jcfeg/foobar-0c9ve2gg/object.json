@@ -1,0 +1,27 @@
+{
+  "ID": "bv3vfheg10l30c9ve2gg",
+  "Name": "foobar",
+  "Attrs": {},
+  "ParentID": "buujoieg10l8uu5jcfeg",
+  "Children": [
+    [
+      "bv3vftug10l30c9ve2h0",
+      "index"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bv3vfheg10l30c9ve2gg",
+      "ID": "",
+      "Name": "zt100.App",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "foobar",
+        "OID": "bv3vfheg10l30c9ve2gg"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

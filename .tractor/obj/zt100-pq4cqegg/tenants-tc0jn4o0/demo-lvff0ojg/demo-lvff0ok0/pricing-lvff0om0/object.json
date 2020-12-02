@@ -12,6 +12,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Name": "pricing",
+        "OID": "buulde6g10l9lvff0om0",
         "Title": "Pricing"
       },
       "Refs": null
@@ -24,6 +26,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "1:zt100.Section",
+        "OID": "buulde6g10l9lvff0om0",
         "Overrides": {}
       },
       "Refs": [

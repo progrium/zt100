@@ -24,7 +24,10 @@
       "Name": "zt100.Block",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "pricing1.jsx",
+        "OID": "buulajug10l9l50n93pg"
+      },
       "Refs": null
     }
   ],

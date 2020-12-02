@@ -1,0 +1,23 @@
+{
+  "ID": "bv3vbgug10l2upn0ckf0",
+  "Name": "foo",
+  "Attrs": {},
+  "ParentID": "buujolmg10l8uu5jcff0",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv3vbgug10l2upn0ckf0",
+      "ID": "",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "foo",
+        "OID": "bv3vbgug10l2upn0ckf0",
+        "Title": "Foo"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

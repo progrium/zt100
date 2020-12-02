@@ -11,7 +11,10 @@
       "Name": "zt100.App",
       "Enabled": false,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "finance",
+        "OID": "buujp7ug10l8uu5jcfgg"
+      },
       "Refs": null
     }
   ],

@@ -8,6 +8,7 @@ import (
 
 	"github.com/EdlinOrg/prominentcolor"
 	"github.com/manifold/tractor/pkg/manifold"
+	"github.com/manifold/tractor/pkg/manifold/comutil"
 	"github.com/manifold/tractor/pkg/ui"
 	"github.com/manifold/tractor/pkg/ui/menu"
 )
@@ -15,13 +16,30 @@ import (
 type Tenant struct {
 	Domain string
 	Color  string `field:"color"`
+	OID    string `tractor:"hidden"`
 
 	object manifold.Object
 }
 
 func (s *Tenant) Mounted(obj manifold.Object) error {
 	s.object = obj
+	s.OID = obj.ID()
 	return nil
+}
+
+func (s *Tenant) Apps() (apps []*App) {
+	for _, obj := range s.object.Children() {
+		for _, com := range comutil.Enabled(obj) {
+			if com.Name() != "zt100.App" {
+				continue
+			}
+			t, ok := com.Pointer().(*App)
+			if ok {
+				apps = append(apps, t)
+			}
+		}
+	}
+	return apps
 }
 
 func (t *Tenant) Name() string {

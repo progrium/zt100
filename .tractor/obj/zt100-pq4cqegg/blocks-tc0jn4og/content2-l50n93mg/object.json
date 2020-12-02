@@ -24,7 +24,10 @@
       "Name": "zt100.Block",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "content2.jsx",
+        "OID": "buul9umg10l9l50n93mg"
+      },
       "Refs": null
     }
   ],

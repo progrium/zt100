@@ -15,6 +15,9 @@ import (
 type Block struct {
 	source []byte `tractor:"hidden"`
 
+	Name string `tractor:"hidden"`
+	OID  string `tractor:"hidden"`
+
 	Watcher *fswatch.Service `tractor:"hidden"`
 	watch   *fswatch.Watch
 	fileref *file.Reference
@@ -23,6 +26,8 @@ type Block struct {
 
 func (c *Block) Mounted(obj manifold.Object) error {
 	c.object = obj
+	c.Name = obj.Name()
+	c.OID = obj.ID()
 	c.fileref = c.object.Component("file.Reference").Pointer().(*file.Reference)
 	return nil
 }

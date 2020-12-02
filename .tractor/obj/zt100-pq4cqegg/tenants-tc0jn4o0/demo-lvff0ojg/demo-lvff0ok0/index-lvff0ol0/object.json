@@ -12,6 +12,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Name": "index",
+        "OID": "buulde6g10l9lvff0ol0",
         "Title": "Home"
       },
       "Refs": null
@@ -24,6 +26,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "1:zt100.Section",
+        "OID": "buulde6g10l9lvff0ol0",
         "Overrides": {}
       },
       "Refs": [
@@ -42,6 +46,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "2:zt100.Section",
+        "OID": "buulde6g10l9lvff0ol0",
         "Overrides": {}
       },
       "Refs": [

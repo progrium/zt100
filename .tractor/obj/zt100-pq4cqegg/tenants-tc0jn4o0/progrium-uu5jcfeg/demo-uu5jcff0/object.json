@@ -15,6 +15,10 @@
     [
       "buulc6ug10l9lvff0oj0",
       "features"
+    ],
+    [
+      "bv3vbgug10l2upn0ckf0",
+      "foo"
     ]
   ],
   "Components": [
@@ -24,7 +28,10 @@
       "Name": "zt100.App",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "demo",
+        "OID": "buujolmg10l8uu5jcff0"
+      },
       "Refs": null
     }
   ],

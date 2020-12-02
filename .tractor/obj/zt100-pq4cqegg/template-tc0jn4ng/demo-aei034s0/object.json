@@ -20,7 +20,10 @@
       "Name": "zt100.App",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "demo",
+        "OID": "buvui3ug10lbaei034s0"
+      },
       "Refs": null
     }
   ],

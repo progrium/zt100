@@ -12,6 +12,8 @@
       "Enabled": true,
       "Attrs": null,
       "Value": {
+        "Name": "pricing",
+        "OID": "bv3q106g10l0s010ekhg",
         "Title": "Pricing"
       },
       "Refs": null
@@ -24,6 +26,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "1:zt100.Section",
+        "OID": "bv3q106g10l0s010ekhg",
         "Overrides": {}
       },
       "Refs": [
@@ -42,6 +46,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "2:zt100.Section",
+        "OID": "bv3q106g10l0s010ekhg",
         "Overrides": {
           "hero1": "Data to enrich \u003cspan style=\"font-weight: normal;\"\u003eyour\u003c/span\u003e",
           "hero2": "online lifestyle"
@@ -63,6 +69,8 @@
       "Attrs": null,
       "Value": {
         "Block": null,
+        "Key": "3:zt100.Section",
+        "OID": "bv3q106g10l0s010ekhg",
         "Overrides": {}
       },
       "Refs": [

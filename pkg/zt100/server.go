@@ -7,14 +7,17 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"github.com/spf13/afero"
 
 	"github.com/manifold/tractor/pkg/core/cmd"
+	"github.com/manifold/tractor/pkg/core/obj"
 	"github.com/manifold/tractor/pkg/manifold"
 	"github.com/manifold/tractor/pkg/manifold/comutil"
 	"github.com/manifold/tractor/pkg/stdlib/file"
@@ -25,7 +28,8 @@ import (
 var Message = "Hello zt100"
 
 type Server struct {
-	Cmds *cmd.Framework `tractor:"hidden"`
+	Cmds    *cmd.Framework `tractor:"hidden"`
+	Objects *obj.Service   `tractor:"hidden"`
 
 	StaticHandler http.Handler
 	Builder       *mk.JSX
@@ -114,6 +118,33 @@ func (s *Server) Lookup(tenantName, appName, pageName, sectionKey string) (tenan
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.Method, r.URL.Path)
 	m := mux.NewRouter()
+	m.PathPrefix("/jsx").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		path := strings.Replace(r.URL.Path, ".js", "", -1)
+		srcPath := fmt.Sprintf("%s.jsx", path)
+		dstPath := fmt.Sprintf("%s.js", path)
+		localPath := fmt.Sprintf(".%s", srcPath)
+		if !fileExists(localPath) {
+			http.NotFound(w, r)
+			return
+		}
+
+		b, berr := ioutil.ReadFile(localPath)
+		if berr != nil {
+			http.Error(w, berr.Error(), http.StatusServiceUnavailable)
+		}
+
+		fs := afero.NewMemMapFs()
+		afero.WriteFile(fs, srcPath, b, 0644)
+		if err := s.Builder.Build(fs, dstPath, srcPath); err != nil {
+			http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		}
+		d, err := afero.ReadFile(fs, dstPath)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusServiceUnavailable)
+		}
+		w.Header().Set("content-type", "text/javascript")
+		w.Write(d)
+	})
 	m.HandleFunc("/blocks/{block}.js", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		var block manifold.Object
@@ -176,6 +207,75 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		page.Component("zt100.Page").Pointer().(*Page).ServeHTTP(w, r)
 	})
+	m.HandleFunc("/e/{tenant}.json", func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		var tenant *Tenant
+		for _, t := range s.Tenants() {
+			if t.Name() == vars["tenant"] {
+				tenant = t
+			}
+		}
+		if tenant == nil {
+			http.NotFound(w, r)
+			return
+		}
+		w.Header().Set("content-type", "text/javascript")
+		subject := strings.TrimPrefix(r.URL.RawQuery, "?")
+		if subject == "" {
+			subject = "/"
+			apps := tenant.Apps()
+			if len(apps) > 0 {
+				subject = fmt.Sprintf("%s/index", apps[0].Name)
+			}
+		}
+		parts := strings.Split(subject, "/")
+		appname := parts[0]
+		pagename := parts[1]
+
+		var sections []*Section
+		var apps []*App
+		var pageOID string
+		pages := make(map[string][]*Page)
+		for _, a := range tenant.Apps() {
+			apps = append(apps, a)
+			pages[a.Name] = a.Pages()
+			if a.Name == appname {
+				for _, p := range a.Pages() {
+					if p.Name == pagename {
+						sections = p.Sections()
+						pageOID = p.OID
+						break
+					}
+				}
+			}
+		}
+
+		var blocks []*Block
+		for _, c := range comutil.MustLookup(s.Blocks).Children() {
+			b, ok := c.Component("zt100.Block").Pointer().(*Block)
+			if !ok {
+				continue
+			}
+			blocks = append(blocks, b)
+		}
+
+		data := map[string]interface{}{
+			"TenantName":   tenant.Name(),
+			"TenantDomain": tenant.Domain,
+			"TenantOID":    tenant.OID,
+			"AppName":      appname,
+			"PageName":     pagename,
+			"PageOID":      pageOID,
+			"Apps":         apps,
+			"Pages":        pages,
+			"Sections":     sections,
+			"Blocks":       blocks,
+		}
+		enc := json.NewEncoder(w)
+		if err := enc.Encode(data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
 	m.HandleFunc("/e/{tenant}", func(w http.ResponseWriter, r *http.Request) {
 		ts, err := template.ParseFiles(
 			"./tmpl/editor.page.html",
@@ -217,4 +317,12 @@ func localpath(subpath string) string {
 	_, filename, _, _ := runtime.Caller(1)
 	dir, _ := filepath.Abs(path.Join(path.Dir(filename), subpath))
 	return dir
+}
+
+func fileExists(path string) bool {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return !info.IsDir()
 }

@@ -24,7 +24,10 @@
       "Name": "zt100.Block",
       "Enabled": true,
       "Attrs": null,
-      "Value": {},
+      "Value": {
+        "Name": "login2.jsx",
+        "OID": "buulasmg10l9l50n93rg"
+      },
       "Refs": null
     }
   ],
