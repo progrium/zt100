@@ -7,12 +7,12 @@
   "Components": [
     {
       "ObjectID": "bv3plpmg10l0lrrsjsfg",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2l10",
       "Name": "file.Reference",
       "Enabled": true,
       "Attrs": null,
       "Value": {
-        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/header1.jsx",
+        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/header1.js",
         "SyncDelete": false,
         "SyncName": true
       },
@@ -20,7 +20,7 @@
     },
     {
       "ObjectID": "bv3plpmg10l0lrrsjsfg",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2l1g",
       "Name": "zt100.Block",
       "Enabled": true,
       "Attrs": null,

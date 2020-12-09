@@ -7,7 +7,7 @@
   "Components": [
     {
       "ObjectID": "buvui3ug10lbaei034u0",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2kb0",
       "Name": "zt100.Page",
       "Enabled": true,
       "Attrs": null,
@@ -20,12 +20,12 @@
     },
     {
       "ObjectID": "buvui3ug10lbaei034u0",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2kbg",
       "Name": "zt100.Section",
       "Enabled": true,
       "Attrs": null,
       "Value": {
-        "Key": "1:zt100.Section",
+        "Key": "bv7c57ug10l8cfct2kbg",
         "OID": "buvui3ug10lbaei034u0",
         "Overrides": {}
       },
@@ -33,12 +33,12 @@
     },
     {
       "ObjectID": "buvui3ug10lbaei034u0",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2kc0",
       "Name": "zt100.Section",
       "Enabled": true,
       "Attrs": null,
       "Value": {
-        "Key": "2:zt100.Section",
+        "Key": "bv7c57ug10l8cfct2kc0",
         "OID": "buvui3ug10lbaei034u0",
         "Overrides": {}
       },

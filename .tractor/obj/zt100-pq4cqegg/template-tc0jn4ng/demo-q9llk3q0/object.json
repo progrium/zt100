@@ -1,0 +1,39 @@
+{
+  "ID": "bv5913eg10l4q9llk3q0",
+  "Name": "demo",
+  "Attrs": {},
+  "ParentID": "buujl4mg10l8tc0jn4ng",
+  "Children": [
+    [
+      "bv5913eg10l4q9llk3r0",
+      "index"
+    ],
+    [
+      "bv5913eg10l4q9llk3s0",
+      "pricing"
+    ],
+    [
+      "bv5913eg10l4q9llk3t0",
+      "features"
+    ],
+    [
+      "bv5913eg10l4q9llk3u0",
+      "foo"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bv5913eg10l4q9llk3q0",
+      "ID": "bv7c57ug10l8cfct2jtg",
+      "Name": "zt100.App",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "demo",
+        "OID": "bv5913eg10l4q9llk3q0"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

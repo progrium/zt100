@@ -2,7 +2,10 @@ package zt100
 
 import (
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/manifold/tractor/pkg/core/cmd"
 	"github.com/manifold/tractor/pkg/manifold/library"
@@ -11,32 +14,43 @@ import (
 
 func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 	cmds.Register(cmd.Definition{
-		ID:       "zt100.new-tenant",
-		Label:    "New Tenant",
+		ID:       "zt100.new-prospect",
+		Label:    "New Prospect",
 		Category: "zt100",
 		Desc:     "",
 		Run: func(params struct {
-			ID   string
-			Name string
+			ID       string
+			Name     string
+			Domain   string
+			Color    string
+			Vertical string
 		}) {
 			if params.Name == "" {
-				params.Name = "newtenant"
+				params.Name = "newprospect"
 			}
 			n := object.New(params.Name)
 
-			tc := library.Lookup("zt100.Tenant").New()
+			tc := library.Lookup("zt100.Prospect").New()
 			tc.SetEnabled(true)
+			tc.SetField("Domain", params.Domain)
+			tc.SetField("Vertical", params.Vertical)
+			if params.Color != "" {
+				tc.SetField("Color", params.Color)
+			} else {
+				tc.CallMethod("GetColor", nil, nil)
+			}
 			n.AppendComponent(tc)
-
-			// thc := library.Lookup("zt100.Theme").New()
-			// thc.SetEnabled(true)
-			// n.AppendComponent(thc)
 
 			p := c.object.Root().FindID(params.ID)
 			if p == nil {
 				p = c.object.Root()
 			}
 			p.AppendChild(n)
+
+			cmds.Execute("zt100.new-app", map[string]interface{}{
+				"ID":   n.ID(),
+				"Name": "main",
+			})
 		},
 	})
 
@@ -63,6 +77,11 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 				p = c.object.Root()
 			}
 			p.AppendChild(n)
+
+			cmds.Execute("zt100.new-page", map[string]interface{}{
+				"ID":   n.ID(),
+				"Name": "index",
+			})
 		},
 	})
 
@@ -72,8 +91,10 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 		Category: "zt100",
 		Desc:     "",
 		Run: func(params struct {
-			PageID  string
-			BlockID string
+			PageID    string
+			BlockID   string
+			Image     io.ReadCloser
+			ImageSize int64
 		}) {
 			p := c.object.Root().FindID(params.PageID)
 			if p == nil {
@@ -90,6 +111,17 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 			pc.SetEnabled(true)
 			pc.SetField("Block", b)
 			p.AppendComponent(pc)
+
+			if params.ImageSize > 0 {
+				d := make([]byte, params.ImageSize)
+				defer params.Image.Close()
+				if _, err := params.Image.Read(d); err == nil {
+					os.Mkdir("local/uploads", 0755)
+					if err := ioutil.WriteFile(fmt.Sprintf("local/uploads/%s.png", pc.ID()), d, 0644); err != nil {
+						log.Println(err)
+					}
+				}
+			}
 
 			if err := c.Objects.MountedComponent(pc, p); err != nil {
 				log.Println(err)
@@ -121,6 +153,14 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 			}
 			p.AppendChild(n)
 
+			cmds.Execute("zt100.new-section", map[string]interface{}{
+				"PageID":  n.ID(),
+				"BlockID": "bv3plpmg10l0lrrsjsfg",
+			})
+			cmds.Execute("zt100.new-section", map[string]interface{}{
+				"PageID":  n.ID(),
+				"BlockID": "bv3pmq6g10l0lrrsjsgg",
+			})
 		},
 	})
 
@@ -130,14 +170,14 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 		Category: "zt100",
 		Desc:     "",
 		Run: func(params struct {
-			Text    string
-			Tenant  string
-			App     string
-			Page    string
-			Section string
-			Key     string
+			Text     string
+			Prospect string
+			App      string
+			Page     string
+			Section  string
+			Key      string
 		}) error {
-			_, _, p, _ := c.Lookup(params.Tenant, params.App, params.Page, "")
+			_, _, p, _ := c.Lookup(params.Prospect, params.App, params.Page, "")
 			section := p.Component(params.Section)
 			if section != nil {
 				s := section.Pointer().(*Section)

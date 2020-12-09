@@ -1,0 +1,32 @@
+{
+  "ID": "bv7rbtmg10l1rnqsm5q0",
+  "Name": "blueshieldca",
+  "Attrs": {},
+  "ParentID": "bv78tkug10l726p10920",
+  "Children": [
+    [
+      "bv7rbtug10l1rnqsm5r0",
+      "main"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bv7rbtmg10l1rnqsm5q0",
+      "ID": "bv7rbtmg10l1rnqsm5qg",
+      "Name": "zt100.Prospect",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#1B92D0",
+        "Domain": "blueshieldca.com",
+        "Features": {
+          "LoginWidget": false
+        },
+        "OID": "bv7rbtmg10l1rnqsm5q0",
+        "Vertical": "Healthcare"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

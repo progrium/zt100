@@ -1,18 +1,18 @@
+- use okta widget
+    - login
+    - register
+- consent feature
 
+- editable templates
+    - remove jsx 
+    - edit modal
+    - template override
+    - data-drive template, block registration?
 
-app builder ui
-    new page w/ prompt
-    sort sections
-    modal system
-    
-    new tenant modal
-    new app modal
-    new section modal
 
 2 app templates
     into blocks
     template objects
-
 
 functions
 docker container 

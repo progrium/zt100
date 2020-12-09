@@ -55,12 +55,20 @@
     [
       "bv3pmq6g10l0lrrsjsgg",
       "footer1.jsx"
+    ],
+    [
+      "bv7br36g10l83cq306t0",
+      "image1.jsx"
+    ],
+    [
+      "bv7hjemg10l0v3babbt0",
+      "colors.jsx"
     ]
   ],
   "Components": [
     {
       "ObjectID": "buujlbug10l8tc0jn4og",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2kf0",
       "Name": "zt100.BlockLibrary",
       "Enabled": true,
       "Attrs": null,
@@ -69,7 +77,7 @@
     },
     {
       "ObjectID": "buujlbug10l8tc0jn4og",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2kfg",
       "Name": "file.Path",
       "Enabled": true,
       "Attrs": null,

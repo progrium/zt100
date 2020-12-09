@@ -1,0 +1,35 @@
+{
+  "ID": "bv7br36g10l83cq306t0",
+  "Name": "image1.jsx",
+  "Attrs": {},
+  "ParentID": "buujlbug10l8tc0jn4og",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv7br36g10l83cq306t0",
+      "ID": "bv7c57ug10l8cfct2l40",
+      "Name": "file.Reference",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/image1.jsx",
+        "SyncDelete": false,
+        "SyncName": true
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bv7br36g10l83cq306t0",
+      "ID": "bv7c57ug10l8cfct2l4g",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "image1.jsx",
+        "OID": "bv7br36g10l83cq306t0"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

@@ -1,0 +1,27 @@
+{
+  "ID": "bv7coqmg10l09ttppgug",
+  "Name": "arrows",
+  "Attrs": {},
+  "ParentID": "bv78tkug10l726p10920",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv7coqmg10l09ttppgug",
+      "ID": "bv7coqmg10l09ttppgv0",
+      "Name": "zt100.Prospect",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#0B0F10",
+        "Domain": "arrows.to",
+        "Features": {
+          "LoginWidget": false
+        },
+        "OID": "bv7coqmg10l09ttppgug",
+        "Vertical": "Dealership"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

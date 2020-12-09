@@ -4,6 +4,7 @@ import (
 	_ "image/png"
 
 	"github.com/manifold/tractor/pkg/manifold"
+	"github.com/manifold/tractor/pkg/misc/notify"
 )
 
 type AppLibrary struct {
@@ -29,12 +30,24 @@ type Section struct {
 	object    manifold.Object
 }
 
+func (s *Section) Initialize() {
+	if s.Overrides == nil {
+		s.Overrides = make(map[string]string)
+	}
+}
+
 func (s *Section) Mounted(obj manifold.Object) error {
 	s.object = obj
 	_, com := obj.FindComponent(s)
-	s.Key = com.Key()
+	s.Key = com.ID()
 	s.OID = obj.ID()
+	notify.Observe(obj, notify.Func(func(event interface{}) error {
+		_, com := obj.FindComponent(s)
+		if com != nil {
+			s.Key = com.ID()
+			s.OID = obj.ID()
+		}
+		return nil
+	}))
 	return nil
 }
-
-var Template = ``

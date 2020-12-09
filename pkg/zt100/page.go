@@ -3,6 +3,7 @@ package zt100
 import (
 	"encoding/json"
 	"fmt"
+	"image/color"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -72,8 +73,8 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	vars := mux.Vars(r)
-	tenant, app, page, sections := p.server.Lookup(vars["tenant"], vars["app"], vars["page"], r.URL.Query().Get("section"))
-	if tenant == nil || app == nil || page == nil {
+	prospect, app, page, sections := p.server.Lookup(vars["prospect"], vars["app"], vars["page"], r.URL.Query().Get("section"))
+	if prospect == nil || app == nil || page == nil {
 		http.Error(w, "page not found", http.StatusNotFound)
 		return
 	}
@@ -93,20 +94,21 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		sectionData = append(sectionData, map[string]interface{}{
 			"Block": name,
 			"Idx":   idx,
-			"Key":   com.Key(),
+			"Key":   com.ID(),
 		})
 		idx++
 	}
-	t := tenant.Component("zt100.Tenant").Pointer().(*Tenant)
+	t := prospect.Component("zt100.Prospect").Pointer().(*Prospect)
 	a := app.Component("zt100.App").Pointer().(*App)
 	config, err := json.Marshal(map[string]interface{}{
-		"Tenant":       tenant.Name(),
-		"TenantColor":  t.Color,
-		"TenantDomain": t.Domain,
-		"PageMenu":     a.PageMenu(),
-		"Page":         page.Name(),
-		"App":          app.Name(),
-		"Overrides":    overrides,
+		"Prospect":       prospect.Name(),
+		"ProspectColor":  t.Color,
+		"ProspectDomain": t.Domain,
+		"PageMenu":       a.PageMenu(),
+		"Page":           page.Name(),
+		"PageOID":        page.ID(),
+		"App":            app.Name(),
+		"Overrides":      overrides,
 	})
 	if err != nil {
 		panic(err)
@@ -120,9 +122,15 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var rgb color.RGBA
+	rgb, err = ParseHexColor(t.Color)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	err = ts.Execute(w, map[string]interface{}{
 		"Config":   string(config),
-		"Color":    t.Color,
+		"Color":    rgb,
 		"Sections": sectionData,
 		"Live":     r.URL.Query().Get("live") != "0",
 	})
@@ -130,4 +138,22 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	//io.WriteString(w, fmt.Sprintf(Template, string(config), t.Color, strings.Join(el, ",\n")))
+}
+
+func ParseHexColor(s string) (c color.RGBA, err error) {
+	c.A = 0xff
+	switch len(s) {
+	case 7:
+		_, err = fmt.Sscanf(s, "#%02x%02x%02x", &c.R, &c.G, &c.B)
+	case 4:
+		_, err = fmt.Sscanf(s, "#%1x%1x%1x", &c.R, &c.G, &c.B)
+		// Double the hex digits:
+		c.R *= 17
+		c.G *= 17
+		c.B *= 17
+	default:
+		err = fmt.Errorf("invalid length, must be 7 or 4")
+
+	}
+	return
 }

@@ -50,7 +50,7 @@ func (a *App) PageMenu() (items []MenuItem) {
 
 func (a *App) OpenInBrowser(path ...string) ui.Script {
 
-	var tnt Tenant
+	var tnt Prospect
 	tobj := comutil.AncestorValue(a.object, &tnt)
 
 	var srv httplib.Server

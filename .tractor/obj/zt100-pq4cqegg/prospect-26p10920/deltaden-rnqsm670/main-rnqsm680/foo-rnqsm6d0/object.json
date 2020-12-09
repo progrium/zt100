@@ -1,0 +1,43 @@
+{
+  "ID": "bv7rn86g10l1rnqsm6d0",
+  "Name": "foo",
+  "Attrs": {},
+  "ParentID": "bv7rkoeg10l1rnqsm680",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv7rn86g10l1rnqsm6d0",
+      "ID": "bv7rn86g10l1rnqsm6dg",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "foo",
+        "OID": "bv7rn86g10l1rnqsm6d0",
+        "Title": "Foo"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bv7rn86g10l1rnqsm6d0",
+      "ID": "bv7rn86g10l1rnqsm6e0",
+      "Name": "zt100.Section",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Block": null,
+        "Key": "bv7rn86g10l1rnqsm6e0",
+        "OID": "bv7rn86g10l1rnqsm6d0",
+        "Overrides": {}
+      },
+      "Refs": [
+        {
+          "ObjectID": "bv7rn86g10l1rnqsm6d0",
+          "Path": "1:zt100.Section/Block",
+          "TargetID": "bv3plpmg10l0lrrsjsfg/1:zt100.Block"
+        }
+      ]
+    }
+  ],
+  "Main": ""
+}

@@ -1,0 +1,63 @@
+{
+  "ID": "bv7r9vmg10l1rnqsm5e0",
+  "Name": "foobar",
+  "Attrs": {},
+  "ParentID": "bv7cqo6g10l0b9f2k50g",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv7r9vmg10l1rnqsm5e0",
+      "ID": "bv7r9vmg10l1rnqsm5eg",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "foobar",
+        "OID": "bv7r9vmg10l1rnqsm5e0",
+        "Title": "Foobar"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bv7r9vmg10l1rnqsm5e0",
+      "ID": "bv7rb3ug10l1rnqsm5j0",
+      "Name": "zt100.Section",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Block": null,
+        "Key": "bv7rb3ug10l1rnqsm5j0",
+        "OID": "bv7r9vmg10l1rnqsm5e0",
+        "Overrides": {}
+      },
+      "Refs": [
+        {
+          "ObjectID": "bv7r9vmg10l1rnqsm5e0",
+          "Path": "1:zt100.Section/Block",
+          "TargetID": "bv3plpmg10l0lrrsjsfg/1:zt100.Block"
+        }
+      ]
+    },
+    {
+      "ObjectID": "bv7r9vmg10l1rnqsm5e0",
+      "ID": "bv7rb3ug10l1rnqsm5lg",
+      "Name": "zt100.Section",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Block": null,
+        "Key": "bv7rb3ug10l1rnqsm5lg",
+        "OID": "bv7r9vmg10l1rnqsm5e0",
+        "Overrides": {}
+      },
+      "Refs": [
+        {
+          "ObjectID": "bv7r9vmg10l1rnqsm5e0",
+          "Path": "2:zt100.Section/Block",
+          "TargetID": "bv3pmq6g10l0lrrsjsgg/1:zt100.Block"
+        }
+      ]
+    }
+  ],
+  "Main": ""
+}

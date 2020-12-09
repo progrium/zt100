@@ -7,12 +7,12 @@
   "Components": [
     {
       "ObjectID": "bv3pmq6g10l0lrrsjsgg",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2l2g",
       "Name": "file.Reference",
-      "Enabled": true,
+      "Enabled": false,
       "Attrs": null,
       "Value": {
-        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/footer1.jsx",
+        "Filepath": "/Users/progrium/Source/github.com/progrium/zt100/blocks/footer1.js",
         "SyncDelete": false,
         "SyncName": true
       },
@@ -20,9 +20,9 @@
     },
     {
       "ObjectID": "bv3pmq6g10l0lrrsjsgg",
-      "ID": "",
+      "ID": "bv7c57ug10l8cfct2l30",
       "Name": "zt100.Block",
-      "Enabled": true,
+      "Enabled": false,
       "Attrs": null,
       "Value": {
         "Name": "footer1.jsx",

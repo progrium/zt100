@@ -1,0 +1,35 @@
+{
+  "ID": "bv7rkoeg10l1rnqsm680",
+  "Name": "main",
+  "Attrs": {},
+  "ParentID": "bv7rkoeg10l1rnqsm670",
+  "Children": [
+    [
+      "bv7rkoeg10l1rnqsm690",
+      "index"
+    ],
+    [
+      "bv7rn86g10l1rnqsm6d0",
+      "foo"
+    ],
+    [
+      "bv7rnsug10l1rnqsm6f0",
+      "registration"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bv7rkoeg10l1rnqsm680",
+      "ID": "bv7rkoeg10l1rnqsm68g",
+      "Name": "zt100.App",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "main",
+        "OID": "bv7rkoeg10l1rnqsm680"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

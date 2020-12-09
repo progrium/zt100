@@ -9,16 +9,16 @@
             <div class="flex">
               <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   <h3 class="inline-flex items-center px-1 pt-1 text-xl font-medium text-gray-900">
-                      UDP Tenants
+                      UDP Prospects
                 </h3>
                 
               </div>
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:items-center">
                 <div class="flex-shrink-0 mr-2">
-                    <button type="button" class="relative inline-flex items-center px-4 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500">
+                    <button onclick="$('#create-modal').show()" type="button" class="relative inline-flex items-center px-4 py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500">
                         <span class="text-xl mr-2 font-semibold">&plus;</span>
-                        <span>New Tenant</span>
+                        <span>New Prospect</span>
                     </button>
                   </div>
     
@@ -104,7 +104,7 @@
         
         <div class="w-2/3 mx-auto bg-white shadow overflow-hidden sm:rounded-md">
             <ul class="divide-y divide-gray-200">
-              {{ range .Tenants }}
+              {{ range .Prospects }}
               <li>
                 <a href="/e/{{.Name}}" class="block hover:bg-gray-50">
                   <div class="flex items-center px-4 py-4 sm:px-6">
@@ -143,7 +143,7 @@
     </div>
   </div>
 
-  <div style="display: var(--modal-display);" class="fixed z-10 inset-0 overflow-y-auto">
+  <div id="create-modal" class="hidden fixed z-10 inset-0 overflow-y-auto">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <!--
         Background overlay, show/hide based on modal state.
@@ -156,7 +156,7 @@
           To: "opacity-0"
       -->
       <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div onclick="$('#create-modal').hide()" class="absolute inset-0 bg-gray-500 opacity-75"></div>
       </div>
   
       <!-- This element is to trick the browser into centering the modal contents. -->
@@ -174,68 +174,149 @@
       <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
         <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-              New Tenant
+              New Prospect
             </h3>
         </div>
-
         
         
+        <form id="create-form">
         <div class="px-4 py-5 sm:p-6">
-                  <!-- <form action="#" method="POST"> -->
+                  
 
-                        <div class="grid grid-cols-3 gap-6">
+                        <div class="grid grid-cols-3 gap-6 my-1">
                           <div class="col-span-3 sm:col-span-2">
-                            <label for="company_website" class="block text-sm font-medium text-gray-700">
+                            <label for="domain" class="block text-sm font-medium text-gray-700">
                               Domain
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
                               <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                                 http://
                               </span>
-                              <input type="text" name="company_website" id="company_website" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="www.example.com">
+                              <input type="text" name="domain" id="field-domain" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" placeholder="example.com">
+                            </div>
+                          </div>
+                          <div class="col-span-1">
+                            <img onerror="this.style.opacity=0" id="field-logo" src="" class="w-14 mt-3" />
+                          </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-6 my-3">
+                          <div class="col-span-2 sm:col-span-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700">
+                              Name
+                            </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                              <input type="text" name="name" id="field-name" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300" placeholder="example">
+                            </div>
+                          </div>
+                          <div class="col-span-1">
+                            <label for="name" class="block text-sm font-medium text-gray-700">
+                              Color
+                            </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                              <input type="text" name="color" id="color" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300" placeholder="auto">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-6 my-3">
+                          <div class="col-span-3 sm:col-span-2">
+                            <label for="vertical" class="block text-sm font-medium text-gray-700">
+                              Vertical
+                            </label>
+                            <div class="mt-1 flex rounded-md shadow-sm">
+                              <select id="vertical" name="vertical" class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                                <option>Default</option>
+                                <option>Finance</option>
+                                <option>Healthcare</option>
+                                <option>Dealership</option>
+                              </select>
                             </div>
                           </div>
                         </div>
             
-                        <div>
-                          <label for="about" class="block text-sm font-medium text-gray-700">
-                            About
-                          </label>
-                          <div class="mt-1">
-                            <textarea id="about" name="about" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="you@example.com"></textarea>
+                        <div class="grid grid-cols-3 gap-6 my-3">
+                          <div class="col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">
+                              Features
+                            </label>
+                            <div class="grid grid-cols-2 grid-rows-2 gap-3 grid-flow-col mt-2">
+                              <div class="relative flex items-start">
+                                <div class="flex items-center h-5">
+                                  <input id="feature_loginwidget" name="feature_loginwidget" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                </div>
+                                <div class="ml-3 text-sm">
+                                  <label for="feature_loginwidget" class="font-medium text-gray-700">Login Widget</label>
+                                  <p class="text-gray-500">Use the Okta login widget</p>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="relative flex items-start">
+                                  <div class="flex items-center h-5">
+                                    <input id="feature_registration" name="feature_registration" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                  </div>
+                                  <div class="ml-3 text-sm">
+                                    <label for="feature_registration" class="font-medium text-gray-700">Registration</label>
+                                    <p class="text-gray-500">Some registration feature</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="relative flex items-start">
+                                  <div class="flex items-center h-5">
+                                    <input id="feature_etc" name="feature_etc" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                  </div>
+                                  <div class="ml-3 text-sm">
+                                    <label for="feature_etc" class="font-medium text-gray-700">Etc</label>
+                                    <p class="text-gray-500">TODO: More configurable features ...</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <p class="mt-2 text-sm text-gray-500">
-                            Brief description for your profile. URLs are hyperlinked.
-                          </p>
                         </div>
-            
-                        <div>
-                          <label class="block text-sm font-medium text-gray-700">
-                            Photo
-                          </label>
-                          <div class="mt-2 flex items-center">
-                            <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                              <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                              </svg>
-                            </span>
-                            <button type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                              Change
-                            </button>
-                          </div>
-                        </div>
-            
                         
         </div>
-                      
-        
-          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Create
-            </button>
-          </div>
+                    
+        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <input value="Create" type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" />
+        </div>
+        </form>
       </div>
-      
+      <script type="text/javascript">
+        $(document).ready(() => {
+          $("#create-form").submit((e) => {
+            e.preventDefault();
+
+            let formData = {}
+            $(e.target).serializeArray().forEach((el) => {
+              formData[el.name] = el.value;
+            })
+
+            m.request({
+              method: "POST",
+              url: "/c/zt100.new-prospect",
+              body: {
+                  ID: "bv78tkug10l726p10920",
+                  Name: formData["name"],
+			            Domain: formData["domain"],
+			            Color: formData["color"],
+			            Vertical: formData["vertical"],
+              },
+            }).then(() => location.reload());
+
+            //$("#create-modal").hide();
+            
+            return false;
+          })
+
+          $("#field-domain").on("input", (e) => {
+            $("#field-name").val(e.target.value.split(".")[0]);
+            $("#field-logo").attr("src", "https://logo.clearbit.com/"+e.target.value);
+            $("#field-logo").css("opacity", "1");
+          })
+        })
+      </script>
     </div>
   </div>
 {{end}}

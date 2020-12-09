@@ -3,7 +3,7 @@
 <div id="editor"></div>
 
 <script type="module">
-  import editor from '/jsx/editor.js';
+  import editor from '/static/editor.js';
   
   m.request({
       method: "GET",
@@ -11,6 +11,7 @@
   }).then(function(data) {
     h.render(document.querySelector("#editor"), h(editor, data));
   })
+
 
 </script>
 

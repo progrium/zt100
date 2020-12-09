@@ -13,7 +13,7 @@ export function Editable({attrs,style,children,hooks}) {
                     url: "/c/zt100.override-text",
                     body: {
                         Text: data, 
-                        Tenant: window.config.Tenant, 
+                        Prospect: window.config.Prospect, 
                         Page: window.config.Page, 
                         App: window.config.App, 
                         Section: attrs.section,

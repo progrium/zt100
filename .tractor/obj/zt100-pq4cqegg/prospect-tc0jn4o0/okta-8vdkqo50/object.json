@@ -1,0 +1,24 @@
+{
+  "ID": "bv402seg10l38vdkqo50",
+  "Name": "okta",
+  "Attrs": {},
+  "ParentID": "buujl9mg10l8tc0jn4o0",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bv402seg10l38vdkqo50",
+      "ID": "",
+      "Name": "zt100.Prospect",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#0F83C3",
+        "Domain": "okta.com",
+        "LoginWidget": true,
+        "OID": "bv402seg10l38vdkqo50"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

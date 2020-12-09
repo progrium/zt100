@@ -1,5 +1,5 @@
 
-Register("zt220.new-tenant:before", (params, target) => {
+Register("zt220.new-prospect:before", (params, target) => {
     if (params["Name"]) {
         return Promise.resolve();
     }

@@ -1,0 +1,32 @@
+{
+  "ID": "bv7rkoeg10l1rnqsm670",
+  "Name": "deltadental",
+  "Attrs": {},
+  "ParentID": "bv78tkug10l726p10920",
+  "Children": [
+    [
+      "bv7rkoeg10l1rnqsm680",
+      "main"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bv7rkoeg10l1rnqsm670",
+      "ID": "bv7rkoeg10l1rnqsm67g",
+      "Name": "zt100.Prospect",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#FBFDFB",
+        "Domain": "deltadental.com",
+        "Features": {
+          "LoginWidget": false
+        },
+        "OID": "bv7rkoeg10l1rnqsm670",
+        "Vertical": "Healthcare"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}
