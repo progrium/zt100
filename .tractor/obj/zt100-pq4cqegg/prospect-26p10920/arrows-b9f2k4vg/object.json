@@ -7,6 +7,10 @@
     [
       "bv7cqo6g10l0b9f2k50g",
       "main"
+    ],
+    [
+      "bv8hjueg10lf74sb5k60",
+      "foo"
     ]
   ],
   "Components": [
@@ -20,6 +24,7 @@
         "Color": "#0B0F10",
         "Domain": "arrows.to",
         "Features": {
+          "Consent": false,
           "LoginWidget": false
         },
         "OID": "bv7cqo6g10l0b9f2k4vg",

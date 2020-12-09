@@ -25,6 +25,7 @@ type Prospect struct {
 
 type Features struct {
 	LoginWidget bool
+	Consent     bool
 }
 
 func (s *Prospect) Mounted(obj manifold.Object) error {
