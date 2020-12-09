@@ -4,12 +4,6 @@ go 1.14
 
 replace worksite => ./.tractor
 
-replace github.com/manifold/tractor => /Users/progrium/Source/github.com/manifold/tractor
-
-replace github.com/manifold/qtalk => /Users/progrium/Source/github.com/manifold/tractor/qtalk
-
-replace github.com/progrium/macdriver => /Users/progrium/Source/github.com/progrium/macdriver
-
 require (
 	github.com/EdlinOrg/prominentcolor v1.0.0 // indirect
 	github.com/gorilla/mux v1.8.0
@@ -20,3 +14,9 @@ require (
 	github.com/progrium/watcher v1.0.8-0.20200403214642-88c0f931de38
 	github.com/spf13/afero v1.4.1
 )
+
+replace github.com/manifold/tractor => /Users/progrium/Source/github.com/manifold/tractor
+
+replace github.com/manifold/qtalk => /Users/progrium/Source/github.com/manifold/tractor/qtalk
+
+replace github.com/progrium/macdriver => /Users/progrium/Source/github.com/progrium/macdriver

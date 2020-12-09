@@ -1,9 +1,9 @@
-.PHONY: tailwind
 
 TAILWIND_PKGS ?= @tailwindcss/forms tailwindcss-cli
 
 dev:
 	echo Dev
+.PHONY: dev
 
 tailwind:
 	mkdir _tailwind
@@ -11,3 +11,4 @@ tailwind:
 	cp tailwind.config.js _tailwind
 	cd _tailwind && ./node_modules/.bin/tailwindcss-cli build -o ../static/tailwind-2.0.1.css
 	rm -rf _tailwind
+.PHONY: tailwind
