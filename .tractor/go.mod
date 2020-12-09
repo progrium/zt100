@@ -4,7 +4,7 @@ go 1.14
 
 replace worksite => ./
 
-replace github.com/progrium/zt100 => ../zt100
+replace github.com/progrium/zt100 => ../
 
 require (
 	github.com/manifold/tractor v0.0.0
@@ -13,10 +13,8 @@ require (
 )
 
 
-replace github.com/manifold/tractor => /Users/progrium/Source/github.com/manifold/tractor
-
-replace github.com/manifold/qtalk => /Users/progrium/Source/github.com/manifold/tractor/qtalk
-
-replace github.com/progrium/macdriver => /Users/progrium/Source/github.com/progrium/macdriver
+replace github.com/manifold/tractor => ../tractor
+replace github.com/manifold/qtalk => ../tractor/qtalk
+replace github.com/progrium/macdriver => ../macdriver
 
 
