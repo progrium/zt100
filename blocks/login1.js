@@ -1,21 +1,10 @@
-import htm from 'https://unpkg.com/htm?module'
-const html = htm.bind(h);
 
 export default function() { 
-  return html`
+  return {
+    "view": function({attrs}) {
+      return html`
     <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-primary-600.svg" alt="Workflow" />
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
-        <p class="mt-2 text-center text-sm text-gray-600 max-w">
-          Or
-          <a href="#" class="font-medium text-primary-600 hover:text-primary-500">
-            start your 14-day free trial
-          </a>
-        </p>
-      </div>
+      
 
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -104,4 +93,6 @@ export default function() {
         </div>
       </div>
     </div>`
+    }
+  }
 }

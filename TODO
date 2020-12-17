@@ -1,19 +1,18 @@
-- use okta widget
-    - login
-    - register
-- consent feature
 
-- editable templates
-    - remove jsx 
-    - edit modal
-    - template override
-    - data-drive template, block registration?
-
+pull tractor components out with joel
 
 2 app templates
     into blocks
     template objects
 
-functions
 docker container 
-fix duplication for app templates
+
+editable templates
+    monaco
+    save button, set-source command
+
+better section handles 
+    left margin div
+    grip
+    wire+restyle
+    delete button

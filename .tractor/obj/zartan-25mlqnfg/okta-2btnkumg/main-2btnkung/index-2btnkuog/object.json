@@ -1,0 +1,41 @@
+{
+  "ID": "bvbtheug10l32btnkuog",
+  "Name": "index",
+  "Attrs": {},
+  "ParentID": "bvbtheug10l32btnkung",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bvbtheug10l32btnkuog",
+      "ID": "bvbtheug10l32btnkup0",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "HideInMenu": false,
+        "OID": "bvbtheug10l32btnkuog",
+        "ObjectName": "index",
+        "Title": "Home"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvbtheug10l32btnkuog",
+      "ID": "bvbtj86g10l34920qeqg",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "header1",
+        "ID": "bvbtj86g10l34920qeqg",
+        "Image": null,
+        "Name": "header1",
+        "OID": "bvbtheug10l32btnkuog",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

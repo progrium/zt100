@@ -1,8 +1,8 @@
-import htm from 'https://unpkg.com/htm?module'
-const html = htm.bind(h);
 
 export default function() { 
-  return html`
+	return {
+	  "view": function({attrs}) {
+		return html`
     <footer class="bg-gray-800" aria-labelledby="footerHeading">
 	<h2 id="footerHeading" class="sr-only">Footer</h2>
 	<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
@@ -177,4 +177,7 @@ export default function() {
 		</div>
 	</div>
 	</footer>`
+	}
+  }
+
 }

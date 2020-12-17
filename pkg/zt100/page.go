@@ -5,11 +5,8 @@ import (
 	"fmt"
 	"image/color"
 	"net/http"
-	"path/filepath"
 	"strings"
-	"text/template"
 
-	"github.com/gorilla/mux"
 	"github.com/manifold/tractor/pkg/manifold"
 	"github.com/manifold/tractor/pkg/manifold/comutil"
 	"github.com/manifold/tractor/pkg/misc/notify"
@@ -17,9 +14,11 @@ import (
 )
 
 type Page struct {
-	Title string
-	Name  string `tractor:"hidden"`
-	OID   string `tractor:"hidden"`
+	Title      string
+	HideInMenu bool
+
+	OID        string `tractor:"hidden"`
+	ObjectName string `json:"Name"`
 
 	events *httplib.EventSource
 	server *Server
@@ -28,6 +27,10 @@ type Page struct {
 
 func (p *Page) Initialize() {
 	p.events = &httplib.EventSource{}
+}
+
+func (t *Page) Name() string {
+	return t.object.Name()
 }
 
 func (p *Page) Mounted(obj manifold.Object) error {
@@ -39,8 +42,8 @@ func (p *Page) Mounted(obj manifold.Object) error {
 		}
 		p.Title = strings.Title(name)
 	}
-	p.Name = obj.Name()
 	p.OID = obj.ID()
+	p.ObjectName = obj.Name()
 
 	var server Server
 	so := comutil.AncestorValue(obj, &server)
@@ -56,15 +59,24 @@ func (p *Page) Mounted(obj manifold.Object) error {
 	return nil
 }
 
-func (p *Page) Sections() (sections []*Section) {
+func (s *Page) Block(id string) *Block {
+	for _, b := range s.Blocks() {
+		if b.ID == id {
+			return b
+		}
+	}
+	return nil
+}
+
+func (p *Page) Blocks() (blocks []*Block) {
 	for _, com := range p.object.Components() {
-		s, ok := com.Pointer().(*Section)
+		s, ok := com.Pointer().(*Block)
 		if !ok {
 			continue
 		}
-		sections = append(sections, s)
+		blocks = append(blocks, s)
 	}
-	return sections
+	return blocks
 }
 
 func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -72,72 +84,33 @@ func (p *Page) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		p.events.ServeHTTP(w, r)
 		return
 	}
-	vars := mux.Vars(r)
-	prospect, app, page, sections := p.server.Lookup(vars["prospect"], vars["app"], vars["page"], r.URL.Query().Get("section"))
-	if prospect == nil || app == nil || page == nil {
-		http.Error(w, "page not found", http.StatusNotFound)
-		return
+
+	ctx := FromContext(r.Context())
+
+	if ctx.Block != nil {
+		ctx.Blocks = []*Block{ctx.Block}
 	}
-	var sectionData []interface{}
-	var overrides []map[string]string
-	idx := 0
-	for _, s := range sections {
-		if s.Block == nil {
-			continue
-		}
-		overrides = append(overrides, s.Overrides)
-		bo := comutil.Object(s.Block)
-		ext := filepath.Ext(bo.Name())
-		name := bo.Name()[:len(bo.Name())-len(ext)]
-		_, com := page.FindComponent(s)
-		//el = append(el, fmt.Sprintf(`h((await import("/blocks/%s.js")).default, {overrides: config.Overrides[%d], section: "%s"}, "Hello")`, name, idx, com.Key()))
-		sectionData = append(sectionData, map[string]interface{}{
-			"Block": name,
-			"Idx":   idx,
-			"Key":   com.ID(),
-		})
-		idx++
-	}
-	t := prospect.Component("zt100.Prospect").Pointer().(*Prospect)
-	a := app.Component("zt100.App").Pointer().(*App)
-	config, err := json.Marshal(map[string]interface{}{
-		"Prospect":       prospect.Name(),
-		"ProspectColor":  t.Color,
-		"ProspectDomain": t.Domain,
-		"PageMenu":       a.PageMenu(),
-		"Page":           page.Name(),
-		"PageOID":        page.ID(),
-		"App":            app.Name(),
-		"Overrides":      overrides,
-	})
+
+	data, err := json.Marshal(ctx)
 	if err != nil {
 		panic(err)
 	}
 
-	ts, err := template.ParseFiles(
-		"./tmpl/app.page.html",
-	)
+	var rgb color.RGBA
+	rgb, err = ParseHexColor(ctx.Demo.Color)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	var rgb color.RGBA
-	rgb, err = ParseHexColor(t.Color)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	err = ts.Execute(w, map[string]interface{}{
-		"Config":   string(config),
-		"Color":    rgb,
-		"Sections": sectionData,
-		"Live":     r.URL.Query().Get("live") != "0",
+	p.server.Template.ExecuteTemplate(w, "page.html", map[string]interface{}{
+		"Data":  string(data),
+		"Color": rgb,
+		"Live":  r.URL.Query().Get("live") != "0",
 	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	//io.WriteString(w, fmt.Sprintf(Template, string(config), t.Color, strings.Join(el, ",\n")))
 }
 
 func ParseHexColor(s string) (c color.RGBA, err error) {

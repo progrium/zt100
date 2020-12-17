@@ -1,8 +1,8 @@
-import htm from 'https://unpkg.com/htm?module'
-const html = htm.bind(h);
 
 export default function() { 
-  return html`
+  return {
+    "view": function({attrs}) {
+      return html`
     <main class="mt-16 sm:mt-24">
       <div class="mx-auto max-w-7xl">
         <div class="lg:grid lg:grid-cols-12 lg:gap-8">
@@ -121,4 +121,6 @@ export default function() {
         </div>
       </div>
     </main>`
+    }
+  }
 }

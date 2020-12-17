@@ -1,77 +1,47 @@
 package zt100
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
+	"net/http"
 
-	"github.com/manifold/tractor/pkg/core/fswatch"
 	"github.com/manifold/tractor/pkg/manifold"
-	"github.com/manifold/tractor/pkg/stdlib/file"
-	"github.com/manifold/tractor/pkg/ui"
-	"github.com/progrium/watcher"
 )
 
 type Block struct {
-	source []byte `tractor:"hidden"`
+	Text     map[string]string
+	BaseName string
+	Source   []byte `tractor:"hidden"`
+	Image    []byte `tractor:"hidden"`
 
 	Name string `tractor:"hidden"`
 	OID  string `tractor:"hidden"`
+	ID   string `tractor:"hidden"`
 
-	Watcher *fswatch.Service `tractor:"hidden"`
-	watch   *fswatch.Watch
-	fileref *file.Reference
-	object  manifold.Object
+	object manifold.Object
+}
+
+func (b *Block) Initialize() {
+	if b.Text == nil {
+		b.Text = make(map[string]string)
+	}
 }
 
 func (c *Block) Mounted(obj manifold.Object) error {
 	c.object = obj
-	c.Name = obj.Name()
+	_, com := obj.FindComponent(c)
 	c.OID = obj.ID()
-	c.fileref = c.object.Component("file.Reference").Pointer().(*file.Reference)
+	c.ID = com.ID()
+	if c.Name == "" {
+		c.Name = obj.Name()
+	}
 	return nil
 }
 
-func (c *Block) Initialize() {
-	if len(c.source) == 0 {
-		c.source = []byte(`
-export default function({attrs}) {
-	return (
-		<div></div>
-	)
-}
-`)
+func (b *Block) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	ctx := FromContext(r.Context())
+	w.Header().Set("content-type", "text/javascript")
+	if len(b.Source) > 0 {
+		w.Write(b.Source)
+		return
 	}
-}
-
-func (c *Block) Source() []byte {
-	b, err := ioutil.ReadFile(c.fileref.Filepath)
-	if err != nil {
-		panic(err)
-	}
-	return b
-}
-
-func (c *Block) fileUpdate(event watcher.Event) {
-	if event.Op == watcher.Write {
-		var err error
-		c.source, err = ioutil.ReadFile(c.watch.Path)
-		if err != nil {
-			log.Println(err)
-		}
-
-	}
-}
-
-func (c *Block) EditSource() ui.Script {
-	if c.object.Name() == "" {
-		return ui.Script{}
-	}
-	return ui.Script{Src: fmt.Sprintf(`window.T.exec("editor.open", {Filename: "%s"})`, c.fileref.Filepath)}
-}
-
-func (c *Block) ComponentDisable() {
-	if c.watch != nil {
-		c.Watcher.Unwatch(c.watch)
-	}
+	w.Write(ctx.Server.Block(b.BaseName).Source)
 }

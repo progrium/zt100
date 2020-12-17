@@ -14,10 +14,24 @@ type App struct {
 	object manifold.Object
 }
 
+type MenuItem struct {
+	Title string
+	Page  string
+}
+
 func (a *App) Mounted(obj manifold.Object) error {
 	a.object = obj
 	a.Name = a.object.Name()
 	a.OID = a.object.ID()
+	return nil
+}
+
+func (s *App) Page(name string) *Page {
+	for _, b := range s.Pages() {
+		if b.Name() == name {
+			return b
+		}
+	}
 	return nil
 }
 
@@ -34,28 +48,16 @@ func (s *App) Pages() (pages []*Page) {
 }
 
 func (a *App) PageMenu() (items []MenuItem) {
-	for _, obj := range a.object.Children() {
-		pagecom := obj.Component("zt100.Page")
-		if pagecom == nil {
+	for _, page := range a.Pages() {
+		if page.HideInMenu {
 			continue
 		}
-		page := pagecom.Pointer().(*Page)
 		items = append(items, MenuItem{
 			Title: page.Title,
-			Page:  obj.Name(),
+			Page:  page.Name(),
 		})
 	}
 	return items
-}
-
-func (a *App) OpenInBrowser(path ...string) ui.Script {
-
-	var tnt Prospect
-	tobj := comutil.AncestorValue(a.object, &tnt)
-
-	var srv httplib.Server
-	comutil.AncestorValue(a.object, &srv)
-	return srv.OpenInBrowser("t", tobj.Name(), a.object.Name())
 }
 
 func (s *App) ObjectMenu(menuID string) []menu.Item {
@@ -68,4 +70,13 @@ func (s *App) ObjectMenu(menuID string) []menu.Item {
 	default:
 		return []menu.Item{}
 	}
+}
+
+func (a *App) OpenInBrowser(path ...string) ui.Script {
+	var tnt Demo
+	tobj := comutil.AncestorValue(a.object, &tnt)
+
+	var srv httplib.Server
+	comutil.AncestorValue(a.object, &srv)
+	return srv.OpenInBrowser("t", tobj.Name(), a.object.Name())
 }

@@ -1,10 +1,11 @@
-import htm from 'https://unpkg.com/htm?module'
-const html = htm.bind(h);
 
-export default function({attrs}) { 
-    var section = attrs.section;
-    return html`
+export default function() { 
+    return {
+      "view": function({attrs}) {
+        return html`
         <div>
-            <img src="/uploads/${section}.png" />
+            <img src="/uploads/${attrs.section}.png" />
         </div>`
+      }
+    }
 }

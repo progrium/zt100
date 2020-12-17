@@ -1,0 +1,32 @@
+{{template "header" .}}
+
+  <script>
+	var data = {{ .Data }};
+	var config = data; // deprecated  
+  </script>
+  <style>
+	:root {
+    --color-primary-r: {{ .Color.R }};
+    --color-primary-g: {{ .Color.G }};
+    --color-primary-b: {{ .Color.B }};
+	}
+  </style>
+	<main></main>
+	<script type="module">
+	var blocks = {};
+	(async () => {
+		
+		for (const idx in (data.Blocks||[])) {
+			let b = data.Blocks[idx];
+			let block = await import(`${location.pathname}/${b.ID}.js`);
+			blocks[b.ID] = block.default;
+		}
+		m.render(document.querySelector("main"), m("main", {}, (data.Blocks||[]).map((b) => {
+			return m(blocks[b.ID], {text: b.Text, id: b.ID});
+		})));
+
+		{{ if .Live }}new EventSource(location.href).onmessage = (e) => location.reload();{{ end }}
+	})()
+	</script>
+
+{{template "footer" .}}

@@ -1,8 +1,8 @@
-import htm from 'https://unpkg.com/htm?module'
-const html = htm.bind(h);
 
 export default function() { 
-  return html`
+  return {
+    "view": function({attrs}) {
+      return html`
     <div class="bg-gray-50 overflow-hidden">
       <div class="relative max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <svg class="absolute top-0 left-full transform -translate-x-1/2 -translate-y-3/4 lg:left-auto lg:right-full lg:translate-x-2/3 lg:translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
@@ -88,4 +88,6 @@ export default function() {
         </div>
       </div>
     </div>`
+    }
+  }
 }

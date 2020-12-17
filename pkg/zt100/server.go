@@ -1,48 +1,62 @@
 package zt100
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
-	"os"
 	"path"
 	"path/filepath"
 	"runtime"
-	"strings"
+	"text/template"
 
 	"github.com/gorilla/mux"
+	"github.com/progrium/zt100/pkg/feature"
+	"github.com/spf13/afero"
 
 	"github.com/manifold/tractor/pkg/core/cmd"
 	"github.com/manifold/tractor/pkg/core/obj"
 	"github.com/manifold/tractor/pkg/manifold"
 	"github.com/manifold/tractor/pkg/manifold/comutil"
-	mk "github.com/manifold/tractor/pkg/stdlib/file/make"
 	"github.com/manifold/tractor/pkg/ui/menu"
 )
 
-var Message = "Hello zt100"
-
-type Server struct {
-	Cmds    *cmd.Framework `tractor:"hidden"`
-	Objects *obj.Service   `tractor:"hidden"`
-
-	StaticHandler http.Handler
-	Builder       *mk.JSX
-	Blocks        string
-	object        manifold.Object
+type PageHandler interface {
+	HandlePages() []string
+	ServeHTTP(w http.ResponseWriter, r *http.Request)
 }
 
-func (s *Server) ObjectMenu(menuID string) []menu.Item {
-	switch menuID {
-	case "explorer/context":
-		return []menu.Item{
-			{Cmd: "zt100.new-prospect", Label: "New Prospect", Icon: "plus-square"},
-		}
-	default:
-		return []menu.Item{}
-	}
+type Server struct {
+	Cmds     *cmd.Framework     `tractor:"hidden" json:"-"`
+	Objects  *obj.Service       `tractor:"hidden" json:"-"`
+	Template *template.Template `json:"-"`
+
+	Features []feature.Feature `json:"-"`
+
+	object manifold.Object
+}
+
+func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.Method, r.URL.Path)
+
+	m := mux.NewRouter()
+	m.HandleFunc("/", s.index)
+	m.HandleFunc("/cmd/{cmd}", s.cmd)
+	m.HandleFunc("/edit/{demo}/{app}/{page}", s.edit)
+	m.HandleFunc("/data/{demo}/{app}/{page}.json", s.data)
+	m.HandleFunc("/preview/{demo}/{app}/{page}", s.preview)
+	m.HandleFunc("/preview/{demo}/{app}/{page}/{block}.js", s.block)
+	m.PathPrefix("/feature/{feature}").HandlerFunc(s.feature)
+	m.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(localpath("../../static")))))
+	//m.PathPrefix("/uploads").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir(localpath("../../local/uploads")))))
+	m.Handle("/preview/{demo}/{app}", http.RedirectHandler(fmt.Sprintf("%s/index", r.URL.Path), 302))
+	m.ServeHTTP(w, r)
+}
+
+func (s *Server) Initialize() {
+	s.Template = template.Must(template.ParseGlob("./tmpl/*"))
+	feature.Load(s)
 }
 
 func (s *Server) Mounted(obj manifold.Object) error {
@@ -50,239 +64,205 @@ func (s *Server) Mounted(obj manifold.Object) error {
 	return nil
 }
 
-func (s *Server) Prospects() (prospects []*Prospect) {
+func (s *Server) Demo(name string) *Demo {
+	for _, b := range s.Demos() {
+		if b.Name() == name {
+			return b
+		}
+	}
+	return nil
+}
+
+func (s *Server) Demos() (demos []*Demo) {
 	for _, obj := range s.object.Children() {
 		for _, com := range comutil.Enabled(obj) {
-			if com.Name() != "zt100.Prospect" {
+			if com.Name() != "zt100.Demo" {
 				continue
 			}
-			t, ok := com.Pointer().(*Prospect)
+			t, ok := com.Pointer().(*Demo)
 			if ok {
-				prospects = append(prospects, t)
+				demos = append(demos, t)
 			}
 		}
 	}
-	return prospects
+	return demos
 }
 
-func (s *Server) Lookup(prospectName, appName, pageName, sectionKey string) (prospect manifold.Object, app manifold.Object, page manifold.Object, sections []*Section) {
-	//vars := mux.Vars(r)
-	for _, c := range s.object.Children() {
-		if c.Name() == prospectName {
-			prospect = c
-			break
+func (s *Server) Block(name string) *Block {
+	for _, b := range s.Blocks() {
+		if b.Name == name {
+			return b
 		}
 	}
-	if prospect == nil {
-		return nil, nil, nil, nil
-	}
-	for _, a := range prospect.Children() {
-		if a.Name() == appName {
-			app = a
-			break
-		}
-	}
-	if app == nil {
-		return prospect, nil, nil, nil
-	}
-	if pageName == "" {
-		pageName = "index"
-	}
-	for _, s := range app.Children() {
-		if s.Name() == pageName {
-			page = s
-			break
-		}
-	}
-	if page == nil {
-		return prospect, app, nil, nil
-	}
-	for _, c := range comutil.Enabled(page) {
-		if c.Name() != "zt100.Section" {
-			continue
-		}
-		if sectionKey != "" && c.ID() != sectionKey {
-			continue
-		}
-		b, ok := c.Pointer().(*Section)
-		if ok {
-			sections = append(sections, b)
-		}
-	}
-	return prospect, app, page, sections
+	return nil
 }
 
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.Method, r.URL.Path)
-	m := mux.NewRouter()
-
-	m.HandleFunc("/c/{cmd}", func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		var v map[string]interface{}
-		defer r.Body.Close()
-
-		if vars["cmd"] == "zt100.new-section" && r.URL.Query().Get("upload") == "1" {
-			if err := r.ParseMultipartForm(100 << 20); err != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
-			mf, mfh, _ := r.FormFile("file")
-			// if err != nil {
-			// 	http.Error(w, err.Error(), http.StatusBadRequest)
-			// 	return
-			// }
-			v = map[string]interface{}{
-				"PageID":    r.FormValue("PageID"),
-				"BlockID":   r.FormValue("BlockID"),
-				"Image":     mf,
-				"ImageSize": mfh.Size,
-			}
-		} else {
-			dec := json.NewDecoder(r.Body)
-			if err := dec.Decode(&v); err != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
+func (s *Server) Blocks() (blocks []*Block) {
+	fs := afero.Afero{Fs: afero.NewOsFs()}
+	path := localpath("../../blocks")
+	dir, err := fs.ReadDir(path)
+	if err != nil {
+		panic(err)
+	}
+	for _, fi := range dir {
+		if fi.IsDir() {
+			continue
 		}
-
-		_, err := s.Cmds.ExecuteCommand(vars["cmd"], v)
+		if fi.Name() == "_template.js" {
+			continue
+		}
+		b, err := fs.ReadFile(filepath.Join(path, fi.Name()))
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Println(err)
+			continue
+		}
+		ext := filepath.Ext(fi.Name())
+		blocks = append(blocks, &Block{
+			Name:   fi.Name()[:len(fi.Name())-len(ext)],
+			Source: b,
+		})
+	}
+	return blocks
+}
+
+func (s *Server) Feature(flag string) feature.Feature {
+	for _, f := range s.Features {
+		if f.Flag().Name == flag {
+			return f
+		}
+	}
+	return nil
+}
+
+func (s *Server) feature(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	for _, f := range s.Features {
+		h, ok := f.(http.Handler)
+		if ok && f.Flag().Name == vars["feature"] {
+			h.ServeHTTP(w, r)
 			return
 		}
-	})
+	}
+	http.NotFound(w, r)
+}
 
-	m.HandleFunc("/t/{prospect}/{app}", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, fmt.Sprintf("%s/index", r.URL.Path), 302)
-	})
-	m.HandleFunc("/t/{prospect}/{app}/{page}", func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		_, _, page, _ := s.Lookup(vars["prospect"], vars["app"], vars["page"], "")
-		if page == nil {
-			http.Error(w, "page not found", http.StatusNotFound)
+func (s *Server) cmd(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var params map[string]interface{}
+
+	if vars["cmd"] == "zt100.block.attach-image" && r.URL.Query().Get("upload") == "1" {
+		// special case for this cmd that uses multipart form
+		if err := r.ParseMultipartForm(100 << 20); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		page.Component("zt100.Page").Pointer().(*Page).ServeHTTP(w, r)
-	})
-
-	m.HandleFunc("/e/{prospect}.json", func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		var prospect *Prospect
-		for _, t := range s.Prospects() {
-			if t.Name() == vars["prospect"] {
-				prospect = t
-			}
+		mf, mfh, _ := r.FormFile("file")
+		params = map[string]interface{}{
+			"PageID":    r.FormValue("PageID"),
+			"BlockID":   r.FormValue("BlockID"),
+			"Image":     mf,
+			"ImageSize": mfh.Size,
 		}
-		if prospect == nil {
-			http.NotFound(w, r)
+	} else {
+		// default case
+		dec := json.NewDecoder(r.Body)
+		defer r.Body.Close()
+		if err := dec.Decode(&params); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		w.Header().Set("content-type", "text/javascript")
-		subject := strings.TrimPrefix(r.URL.RawQuery, "?")
-		if subject == "" {
-			subject = "/"
-			apps := prospect.Apps()
-			if len(apps) > 0 {
-				subject = fmt.Sprintf("%s/index", apps[0].Name)
-			}
-		}
-		parts := strings.Split(subject, "/")
-		appname := parts[0]
-		pagename := parts[1]
+	}
 
-		var sections []*Section
-		var apps []*App
-		var pageOID string
-		pages := make(map[string][]*Page)
-		for _, a := range prospect.Apps() {
-			apps = append(apps, a)
-			pages[a.Name] = a.Pages()
-			if a.Name == appname {
-				for _, p := range a.Pages() {
-					if p.Name == pagename {
-						sections = p.Sections()
-						pageOID = p.OID
-						break
-					}
+	_, err := s.Cmds.ExecuteCommand(vars["cmd"], params)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (s *Server) data(w http.ResponseWriter, r *http.Request) {
+	ctx := LoadContext(s, r)
+
+	if ctx.Demo == nil {
+		fmt.Printf("%#v\n", ctx)
+		http.NotFound(w, r)
+		return
+	}
+
+	w.Header().Set("content-type", "application/json")
+	enc := json.NewEncoder(w)
+	if err := enc.Encode(ctx); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (s *Server) preview(w http.ResponseWriter, r *http.Request) {
+	ctx := LoadContext(s, r)
+	r = r.WithContext(context.WithValue(r.Context(), "data", ctx))
+
+	vars := mux.Vars(r)
+	for _, f := range s.Features {
+		ph, ok := f.(PageHandler)
+		flag := f.Flag().Name
+		if ok && ctx.HasFeature(flag) {
+			for _, page := range ph.HandlePages() {
+				if page == vars["page"] {
+					ph.ServeHTTP(w, r)
+					return
 				}
 			}
 		}
+	}
 
-		var blocks []*Block
-		for _, c := range comutil.MustLookup(s.Blocks).Children() {
-			b, ok := c.Component("zt100.Block").Pointer().(*Block)
-			if !ok {
-				continue
-			}
-			blocks = append(blocks, b)
-		}
+	if ctx.Page == nil {
+		http.NotFound(w, r)
+		return
+	}
 
-		data := map[string]interface{}{
-			"ProspectName":   prospect.Name(),
-			"ProspectDomain": prospect.Domain,
-			"ProspectOID":    prospect.OID,
-			"AppName":        appname,
-			"PageName":       pagename,
-			"PageOID":        pageOID,
-			"Apps":           apps,
-			"Pages":          pages,
-			"Sections":       sections,
-			"Blocks":         blocks,
-		}
-		enc := json.NewEncoder(w)
-		if err := enc.Encode(data); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+	ctx.Page.ServeHTTP(w, r)
+}
+
+func (s *Server) block(w http.ResponseWriter, r *http.Request) {
+	ctx := LoadContext(s, r)
+	if ctx.Block == nil {
+		http.NotFound(w, r)
+		return
+	}
+	ctx.Block.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "data", ctx)))
+}
+
+func (s *Server) edit(w http.ResponseWriter, r *http.Request) {
+	err := s.Template.ExecuteTemplate(w, "edit.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (s *Server) index(w http.ResponseWriter, r *http.Request) {
+	//b, _ := json.MarshalIndent(getProfileData(r), "", "  ")
+	err := s.Template.ExecuteTemplate(w, "index.html", map[string]interface{}{
+		"Demos":    s.Demos(),
+		"OID":      s.object.ID(),
+		"Features": feature.FlattenFlags(s.Features),
 	})
-	m.HandleFunc("/e/{prospect}", func(w http.ResponseWriter, r *http.Request) {
-		ts, err := template.ParseFiles(
-			"./tmpl/editor.page.html",
-			"./tmpl/base.layout.html",
-		)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
 
-		err = ts.Execute(w, nil)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+func (s *Server) ObjectMenu(menuID string) []menu.Item {
+	switch menuID {
+	case "explorer/context":
+		return []menu.Item{
+			{Cmd: "zt100.new-demo", Label: "New Demo", Icon: "plus-square"},
 		}
-	})
-	m.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		ts, err := template.ParseFiles(
-			"./tmpl/index.page.html",
-			"./tmpl/base.layout.html",
-		)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		err = ts.Execute(w, map[string]interface{}{
-			"Prospects": s.Prospects(),
-		})
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	})
-	m.PathPrefix("/blocks").Handler(http.StripPrefix("/blocks/", http.FileServer(http.Dir(localpath("../../blocks")))))
-	m.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(localpath("../../static")))))
-	m.PathPrefix("/uploads").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir(localpath("../../local/uploads")))))
-	//m.PathPrefix("/").Handler(s.StaticHandler)
-	m.ServeHTTP(w, r)
+	default:
+		return []menu.Item{}
+	}
 }
 
 func localpath(subpath string) string {
 	_, filename, _, _ := runtime.Caller(1)
 	dir, _ := filepath.Abs(path.Join(path.Dir(filename), subpath))
 	return dir
-}
-
-func fileExists(path string) bool {
-	info, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
 }

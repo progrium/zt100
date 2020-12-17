@@ -1,0 +1,58 @@
+{
+  "ID": "bvbtsumg10l3979ag8ag",
+  "Name": "pricing",
+  "Attrs": {},
+  "ParentID": "bvbtheug10l32btnkung",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bvbtsumg10l3979ag8ag",
+      "ID": "bvbtsumg10l3979ag8b0",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "HideInMenu": false,
+        "OID": "bvbtsumg10l3979ag8ag",
+        "ObjectName": "pricing",
+        "Title": "Pricing"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvbtsumg10l3979ag8ag",
+      "ID": "bvbtt3eg10l3979ag8c0",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "header1",
+        "ID": "bvbtt3eg10l3979ag8c0",
+        "Image": null,
+        "Name": "header1",
+        "OID": "bvbtsumg10l3979ag8ag",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvbtsumg10l3979ag8ag",
+      "ID": "bvbtt0ug10l3979ag8bg",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "pricing1",
+        "ID": "bvbtt0ug10l3979ag8bg",
+        "Image": null,
+        "Name": "pricing1",
+        "OID": "bvbtsumg10l3979ag8ag",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

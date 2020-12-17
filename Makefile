@@ -12,16 +12,14 @@ setup: ## setup project workspace
 	@echo NOTICE: These directories can be replaced with symlinks if already cloned elsewhere.
 .PHONY: setup
 
-dev: ## TBD
-	echo Dev
+dev: ## run dev server
+	cd tractor && source $(shell pwd)/.env && make dev WORKSITE=$(shell pwd)
 .PHONY: dev
-
-
 
 tailwind: ## compile tailwind from config
 	mkdir _tailwind
 	cd _tailwind && npm init -y > /dev/null && npm install $(TAILWIND_PKGS)
 	cp tailwind.config.js _tailwind
-	cd _tailwind && ./node_modules/.bin/tailwindcss-cli build -o ../static/tailwind-2.0.1.css
+	cd _tailwind && ./node_modules/.bin/tailwindcss-cli build -o ../static/vnd/tailwind-2.0.1.css
 	rm -rf _tailwind
 .PHONY: tailwind

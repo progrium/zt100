@@ -1,0 +1,65 @@
+{
+  "ID": "bvbr2fug10l125mlqnfg",
+  "Name": "Zartan",
+  "Attrs": {},
+  "ParentID": "buujj4ug10l8pq4cqeg0",
+  "Children": [
+    [
+      "bvbrd6ug10l1cvmgnfv0",
+      "twilio"
+    ],
+    [
+      "bvbthemg10l32btnkumg",
+      "okta"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bvbr2fug10l125mlqnfg",
+      "ID": "bvbr2nmg10l125mlqng0",
+      "Name": "zt100.Server",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Features": null
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvbr2fug10l125mlqnfg",
+      "ID": "bvbr2qeg10l125mlqngg",
+      "Name": "tcp.Listener",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Address": ":8080"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvbr2fug10l125mlqnfg",
+      "ID": "bvbr2tmg10l125mlqnh0",
+      "Name": "http.Server",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Handler": null,
+        "Listener": null,
+        "Server": null
+      },
+      "Refs": [
+        {
+          "ObjectID": "bvbr2fug10l125mlqnfg",
+          "Path": "2:http.Server/Listener",
+          "TargetID": "bvbr2fug10l125mlqnfg/1:tcp.Listener"
+        },
+        {
+          "ObjectID": "bvbr2fug10l125mlqnfg",
+          "Path": "2:http.Server/Handler",
+          "TargetID": "bvbr2fug10l125mlqnfg/0:zt100.Server"
+        }
+      ]
+    }
+  ],
+  "Main": ""
+}

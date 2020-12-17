@@ -1,8 +1,8 @@
-import htm from 'https://unpkg.com/htm?module'
-const html = htm.bind(h);
 
 export default function() { 
-  return html`
+  return {
+    "view": function({attrs}) {
+      return html`
     <div class="bg-white">
       <div class="max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
         <div class="sm:flex sm:flex-col sm:align-center">
@@ -192,4 +192,6 @@ export default function() {
         </div>
       </div>
     </div>`
+    }
+  }
 }

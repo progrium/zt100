@@ -3,9 +3,7 @@ package zt100
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/manifold/tractor/pkg/core/cmd"
 	"github.com/manifold/tractor/pkg/manifold/library"
@@ -14,8 +12,8 @@ import (
 
 func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 	cmds.Register(cmd.Definition{
-		ID:       "zt100.new-prospect",
-		Label:    "New Prospect",
+		ID:       "zt100.new-demo",
+		Label:    "New Demo",
 		Category: "zt100",
 		Desc:     "",
 		Run: func(params struct {
@@ -24,16 +22,23 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 			Domain   string
 			Color    string
 			Vertical string
+			Features []interface{}
 		}) {
 			if params.Name == "" {
-				params.Name = "newprospect"
+				params.Name = "newdemo"
 			}
 			n := object.New(params.Name)
 
-			tc := library.Lookup("zt100.Prospect").New()
+			var flags []string
+			for _, feat := range params.Features {
+				flags = append(flags, feat.(string))
+			}
+
+			tc := library.Lookup("zt100.Demo").New()
 			tc.SetEnabled(true)
 			tc.SetField("Domain", params.Domain)
 			tc.SetField("Vertical", params.Vertical)
+			tc.SetField("Features", flags)
 			if params.Color != "" {
 				tc.SetField("Color", params.Color)
 			} else {
@@ -86,50 +91,6 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 	})
 
 	cmds.Register(cmd.Definition{
-		ID:       "zt100.new-section",
-		Label:    "New Page",
-		Category: "zt100",
-		Desc:     "",
-		Run: func(params struct {
-			PageID    string
-			BlockID   string
-			Image     io.ReadCloser
-			ImageSize int64
-		}) {
-			p := c.object.Root().FindID(params.PageID)
-			if p == nil {
-				return
-			}
-
-			bo := c.object.Root().FindID(params.BlockID)
-			if bo == nil {
-				return
-			}
-			b := bo.Component("zt100.Block").Pointer().(*Block)
-
-			pc := library.Lookup("zt100.Section").New()
-			pc.SetEnabled(true)
-			pc.SetField("Block", b)
-			p.AppendComponent(pc)
-
-			if params.ImageSize > 0 {
-				d := make([]byte, params.ImageSize)
-				defer params.Image.Close()
-				if _, err := params.Image.Read(d); err == nil {
-					os.Mkdir("local/uploads", 0755)
-					if err := ioutil.WriteFile(fmt.Sprintf("local/uploads/%s.png", pc.ID()), d, 0644); err != nil {
-						log.Println(err)
-					}
-				}
-			}
-
-			if err := c.Objects.MountedComponent(pc, p); err != nil {
-				log.Println(err)
-			}
-		},
-	})
-
-	cmds.Register(cmd.Definition{
 		ID:       "zt100.new-page",
 		Label:    "New Page",
 		Category: "zt100",
@@ -165,25 +126,87 @@ func (c *Server) ContributeCommands(cmds *cmd.Registry) {
 	})
 
 	cmds.Register(cmd.Definition{
-		ID:       "zt100.override-text",
-		Label:    "Override Block Text",
+		ID:       "zt100.new-block",
+		Label:    "New Block",
 		Category: "zt100",
 		Desc:     "",
 		Run: func(params struct {
-			Text     string
-			Prospect string
-			App      string
-			Page     string
-			Section  string
-			Key      string
-		}) error {
-			_, _, p, _ := c.Lookup(params.Prospect, params.App, params.Page, "")
-			section := p.Component(params.Section)
-			if section != nil {
-				s := section.Pointer().(*Section)
-				s.Overrides[params.Key] = params.Text
-				return section.SetField(fmt.Sprintf("Overrides/%s", params.Key), params.Text)
+			PageID   string
+			BaseName string
+		}) {
+			p := c.object.Root().FindID(params.PageID)
+			if p == nil {
+				return
 			}
+
+			pc := library.Lookup("zt100.Block").New()
+			pc.SetEnabled(true)
+			pc.SetField("BaseName", params.BaseName)
+			pc.SetField("Name", params.BaseName)
+			p.AppendComponent(pc)
+
+			if err := c.Objects.MountedComponent(pc, p); err != nil {
+				log.Println(err)
+			}
+		},
+	})
+
+	cmds.Register(cmd.Definition{
+		ID:       "zt100.block.attach-image",
+		Label:    "Attach Block Image",
+		Category: "zt100",
+		Desc:     "",
+		Run: func(params struct {
+			PageID    string
+			BlockID   string
+			Image     io.ReadCloser
+			ImageSize int64
+		}) {
+			p := c.object.Root().FindID(params.PageID)
+			if p == nil {
+				return
+			}
+
+			com := p.Component(params.BlockID)
+			if com != nil && params.ImageSize > 0 {
+				d := make([]byte, params.ImageSize)
+				defer params.Image.Close()
+				if _, err := params.Image.Read(d); err == nil {
+					if err := com.SetField("Image", d); err != nil {
+						log.Println(err)
+					}
+					// os.Mkdir("local/uploads", 0755)
+					// if err := ioutil.WriteFile(fmt.Sprintf("local/uploads/%s.png", pc.ID()), d, 0644); err != nil {
+					// 	log.Println(err)
+					// }
+				}
+			}
+		},
+	})
+
+	cmds.Register(cmd.Definition{
+		ID:       "zt100.block.set-text",
+		Label:    "Set Block Text",
+		Category: "zt100",
+		Desc:     "",
+		Run: func(params struct {
+			PageID  string
+			BlockID string
+			Key     string
+			Text    string
+		}) error {
+			p := c.object.Root().FindID(params.PageID)
+			if p == nil {
+				return nil
+			}
+
+			com := p.Component(params.BlockID)
+			if com != nil {
+				s := com.Pointer().(*Block)
+				s.Text[params.Key] = params.Text
+				return com.SetField(fmt.Sprintf("Text/%s", params.Key), params.Text)
+			}
+
 			return nil
 		},
 	})

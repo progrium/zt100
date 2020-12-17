@@ -1,0 +1,35 @@
+{
+  "ID": "bvbthemg10l32btnkumg",
+  "Name": "okta",
+  "Attrs": {},
+  "ParentID": "bvbr2fug10l125mlqnfg",
+  "Children": [
+    [
+      "bvbtheug10l32btnkung",
+      "main"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bvbthemg10l32btnkumg",
+      "ID": "bvbthemg10l32btnkun0",
+      "Name": "zt100.Demo",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#0F83C3",
+        "Domain": "okta.com",
+        "Features": [
+          "login",
+          "register",
+          "login:consent"
+        ],
+        "OID": "bvbthemg10l32btnkumg",
+        "ObjectName": "okta",
+        "Vertical": "Default"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}
