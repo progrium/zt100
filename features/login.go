@@ -23,7 +23,6 @@ type LoginFeature struct {
 	Nonce    string
 	State    string
 	Sessions sessions.Store `json:"-"`
-	//Templates *template.Template `json:"-"`
 
 	Server *zt100.Server `json:"-"`
 }
@@ -106,7 +105,8 @@ func (f *LoginFeature) login(w http.ResponseWriter, r *http.Request) {
 		}
 		delete(session.Values, "after_login")
 		session.Save(r, w)
-		for _, feat := range f.Server.Features {
+		for i := len(f.Server.Features) - 1; i >= 0; i-- {
+			feat := f.Server.Features[i]
 			lr, ok := feat.(LoginRedirector)
 			if ok {
 				nextURL = lr.LoginRedirect(nextURL, r)

@@ -352,7 +352,7 @@ function newPage(id, name) {
         ID: id,
         Name: name.toLowerCase()
     },
-  }).then(() => location.reload());
+  }).then(() => location.href = location.pathname.substring(0,location.pathname.lastIndexOf("/")+1)+name);
 }
 
 window.addEventListener('resize', () => {
