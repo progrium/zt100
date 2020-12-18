@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/manifold/tractor/pkg/manifold"
-	"github.com/manifold/tractor/pkg/manifold/comutil"
-	"github.com/manifold/tractor/pkg/misc/notify"
-	httplib "github.com/manifold/tractor/pkg/stdlib/http"
+	"github.com/progrium/zt100/pkg/manifold"
+	"github.com/progrium/zt100/pkg/manifold/comutil"
+	"github.com/progrium/zt100/pkg/misc/notify"
+	httplib "github.com/progrium/zt100/pkg/stdlib/http"
 )
 
 type Page struct {

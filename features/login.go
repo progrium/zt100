@@ -257,8 +257,14 @@ func (f *LoginFeature) getProfileData(r *http.Request) map[string]string {
 	h.Add("Accept", "application/json")
 
 	client := &http.Client{}
-	resp, _ := client.Do(req)
-	body, _ := ioutil.ReadAll(resp.Body)
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
 	defer resp.Body.Close()
 	json.Unmarshal(body, &m)
 

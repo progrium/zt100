@@ -5,9 +5,9 @@ import (
 	"io"
 	"log"
 
-	"github.com/manifold/tractor/pkg/core/cmd"
-	"github.com/manifold/tractor/pkg/manifold/library"
-	"github.com/manifold/tractor/pkg/manifold/object"
+	"github.com/progrium/zt100/pkg/core/cmd"
+	"github.com/progrium/zt100/pkg/manifold/library"
+	"github.com/progrium/zt100/pkg/manifold/object"
 )
 
 func (c *Server) ContributeCommands(cmds *cmd.Registry) {

@@ -1,11 +1,8 @@
 package zt100
 
 import (
-	"github.com/manifold/tractor/pkg/manifold"
-	"github.com/manifold/tractor/pkg/manifold/comutil"
-	httplib "github.com/manifold/tractor/pkg/stdlib/http"
-	"github.com/manifold/tractor/pkg/ui"
-	"github.com/manifold/tractor/pkg/ui/menu"
+	"github.com/progrium/zt100/pkg/manifold"
+	"github.com/progrium/zt100/pkg/ui/menu"
 )
 
 type App struct {
@@ -70,13 +67,4 @@ func (s *App) ObjectMenu(menuID string) []menu.Item {
 	default:
 		return []menu.Item{}
 	}
-}
-
-func (a *App) OpenInBrowser(path ...string) ui.Script {
-	var tnt Demo
-	tobj := comutil.AncestorValue(a.object, &tnt)
-
-	var srv httplib.Server
-	comutil.AncestorValue(a.object, &srv)
-	return srv.OpenInBrowser("t", tobj.Name(), a.object.Name())
 }

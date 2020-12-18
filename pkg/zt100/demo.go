@@ -9,10 +9,10 @@ import (
 	_ "image/png"
 
 	"github.com/EdlinOrg/prominentcolor"
-	"github.com/manifold/tractor/pkg/manifold"
-	"github.com/manifold/tractor/pkg/manifold/comutil"
-	"github.com/manifold/tractor/pkg/ui"
-	"github.com/manifold/tractor/pkg/ui/menu"
+	"github.com/progrium/zt100/pkg/manifold"
+	"github.com/progrium/zt100/pkg/manifold/comutil"
+	"github.com/progrium/zt100/pkg/ui"
+	"github.com/progrium/zt100/pkg/ui/menu"
 )
 
 type Demo struct {

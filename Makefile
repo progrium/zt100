@@ -5,15 +5,13 @@ help: ## show this help
 .PHONY: help
 
 setup: ## setup project workspace 
-	git clone git@github.com:progrium/macdriver.git
 	git clone git@github.com:manifold/qtalk.git
-	git clone git@github.com:manifold/tractor.git
 	@echo
 	@echo NOTICE: These directories can be replaced with symlinks if already cloned elsewhere.
 .PHONY: setup
 
 dev: ## run dev server
-	cd tractor && source $(shell pwd)/.env && make dev WORKSITE=$(shell pwd)
+	source $(shell pwd)/.env && go run cmd/zt100/main.go
 .PHONY: dev
 
 tailwind: ## compile tailwind from config

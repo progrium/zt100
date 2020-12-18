@@ -15,11 +15,11 @@ import (
 	"github.com/progrium/zt100/pkg/feature"
 	"github.com/spf13/afero"
 
-	"github.com/manifold/tractor/pkg/core/cmd"
-	"github.com/manifold/tractor/pkg/core/obj"
-	"github.com/manifold/tractor/pkg/manifold"
-	"github.com/manifold/tractor/pkg/manifold/comutil"
-	"github.com/manifold/tractor/pkg/ui/menu"
+	"github.com/progrium/zt100/pkg/core/cmd"
+	"github.com/progrium/zt100/pkg/core/obj"
+	"github.com/progrium/zt100/pkg/manifold"
+	"github.com/progrium/zt100/pkg/manifold/comutil"
+	"github.com/progrium/zt100/pkg/ui/menu"
 )
 
 type PageHandler interface {
