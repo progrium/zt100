@@ -12,6 +12,7 @@ setup: ## setup project workspace
 
 dev: ## run dev server
 	source $(shell pwd)/.env && go run cmd/zt100/main.go
+	#cd /Users/progrium/Source/github.com/manifold/tractor && source $(shell pwd)/.env && make dev WORKSITE=$(shell pwd)
 .PHONY: dev
 
 tailwind: ## compile tailwind from config

@@ -1,0 +1,37 @@
+{
+  "ID": "bvgd0heg10l05lno1ip0",
+  "Name": "okta",
+  "Attrs": {},
+  "ParentID": "bvbr2fug10l125mlqnfg",
+  "Children": [
+    [
+      "bvgd0hmg10l05lno1iq0",
+      "main"
+    ],
+    [
+      "bvgd2img10l05lno1iv0",
+      "mobile"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bvgd0heg10l05lno1ip0",
+      "ID": "bvgd0heg10l05lno1ipg",
+      "Name": "zt100.Demo",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Color": "#1487C5",
+        "Domain": "okta.com",
+        "Features": [
+          "login"
+        ],
+        "OID": "bvgd0heg10l05lno1ip0",
+        "ObjectName": "okta",
+        "Vertical": "Default"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

@@ -1,0 +1,58 @@
+{
+  "ID": "bvgd4d6g10l05lno1j70",
+  "Name": "consent",
+  "Attrs": {},
+  "ParentID": "bvgd46eg10l05lno1j40",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bvgd4d6g10l05lno1j70",
+      "ID": "bvgd4d6g10l05lno1j7g",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "HideInMenu": false,
+        "OID": "bvgd4d6g10l05lno1j70",
+        "ObjectName": "consent",
+        "Title": "Consent"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvgd4d6g10l05lno1j70",
+      "ID": "bvgd4nmg10l05lno1ja0",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "header1",
+        "ID": "bvgd4nmg10l05lno1ja0",
+        "Image": null,
+        "Name": "header1",
+        "OID": "bvgd4d6g10l05lno1j70",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvgd4d6g10l05lno1j70",
+      "ID": "bvgd4p6g10l05lno1jag",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "consent1",
+        "ID": "bvgd4p6g10l05lno1jag",
+        "Image": null,
+        "Name": "consent1",
+        "OID": "bvgd4d6g10l05lno1j70",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

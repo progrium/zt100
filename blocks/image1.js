@@ -4,7 +4,7 @@ export default function() {
       "view": function({attrs}) {
         return html`
         <div>
-            <img src="/uploads/${attrs.section}.png" />
+            <a href="login"></a><img src="/uploads/${attrs.section}.png" /></a>
         </div>`
       }
     }

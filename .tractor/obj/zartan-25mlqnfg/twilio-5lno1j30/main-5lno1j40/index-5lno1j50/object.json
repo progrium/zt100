@@ -1,0 +1,58 @@
+{
+  "ID": "bvgd46eg10l05lno1j50",
+  "Name": "index",
+  "Attrs": {},
+  "ParentID": "bvgd46eg10l05lno1j40",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bvgd46eg10l05lno1j50",
+      "ID": "bvgd46eg10l05lno1j5g",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "HideInMenu": false,
+        "OID": "bvgd46eg10l05lno1j50",
+        "ObjectName": "index",
+        "Title": "Home"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvgd46eg10l05lno1j50",
+      "ID": "bvgd47mg10l05lno1j60",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "header1",
+        "ID": "bvgd47mg10l05lno1j60",
+        "Image": null,
+        "Name": "header1",
+        "OID": "bvgd46eg10l05lno1j50",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvgd46eg10l05lno1j50",
+      "ID": "bvgd7seg10l05lno1jfg",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "hero1",
+        "ID": "bvgd7seg10l05lno1jfg",
+        "Image": null,
+        "Name": "hero1",
+        "OID": "bvgd46eg10l05lno1j50",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

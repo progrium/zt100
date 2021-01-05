@@ -15,6 +15,8 @@ import (
 	"github.com/progrium/zt100/pkg/manifold/object"
 	"github.com/progrium/zt100/pkg/misc/registry"
 	"github.com/progrium/zt100/pkg/stdlib"
+	"github.com/progrium/zt100/pkg/ui"
+	"github.com/progrium/zt100/pkg/ui/state"
 )
 
 type Initializer interface {
@@ -24,6 +26,7 @@ type Initializer interface {
 func main() {
 	stdlib.Load()
 
+	ui.State = &state.Framework{}
 	svcs := []interface{}{
 		&fswatch.Service{},
 		&daemon.Framework{},
@@ -31,6 +34,7 @@ func main() {
 		&cmd.Framework{},
 		&service.Framework{},
 		&obj.Service{},
+		ui.State,
 	}
 
 	for _, svc := range svcs {

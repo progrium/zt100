@@ -1,0 +1,58 @@
+{
+  "ID": "bvgd0hmg10l05lno1ir0",
+  "Name": "index",
+  "Attrs": {},
+  "ParentID": "bvgd0hmg10l05lno1iq0",
+  "Children": null,
+  "Components": [
+    {
+      "ObjectID": "bvgd0hmg10l05lno1ir0",
+      "ID": "bvgd0hmg10l05lno1irg",
+      "Name": "zt100.Page",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "HideInMenu": false,
+        "OID": "bvgd0hmg10l05lno1ir0",
+        "ObjectName": "index",
+        "Title": "Home"
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvgd0hmg10l05lno1ir0",
+      "ID": "bvgd0jeg10l05lno1is0",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "header1",
+        "ID": "bvgd0jeg10l05lno1is0",
+        "Image": null,
+        "Name": "header1",
+        "OID": "bvgd0hmg10l05lno1ir0",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    },
+    {
+      "ObjectID": "bvgd0hmg10l05lno1ir0",
+      "ID": "bvgd0keg10l05lno1isg",
+      "Name": "zt100.Block",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "BaseName": "content2",
+        "ID": "bvgd0keg10l05lno1isg",
+        "Image": null,
+        "Name": "content2",
+        "OID": "bvgd0hmg10l05lno1ir0",
+        "Source": null,
+        "Text": {}
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}

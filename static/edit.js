@@ -397,16 +397,17 @@ function reorderSection(id, from, to) {
 }
 
 function handleDrop(e) {
+  console.log("dropped");
   let files = e.originalEvent.dataTransfer.files;
   if (files.length === 1) {
     let formData = new FormData()
     let el = e.target.closest(".block-drop");
     formData.append('file', files[0])
     formData.append('PageID', el.dataset["pageid"])
-    formData.append('BlockID', "bv7br36g10l83cq306t0")
-    // fetch("/cmd/zt100.new-section?upload=1", {
-    //   method: 'POST',
-    //   body: formData
-    // })
+    formData.append('BaseName', "image")
+    fetch("/cmd/zt100.new-block?upload=1", {
+      method: 'POST',
+      body: formData
+    })
   }
 }

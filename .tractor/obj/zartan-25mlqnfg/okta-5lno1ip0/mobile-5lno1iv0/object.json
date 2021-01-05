@@ -1,0 +1,27 @@
+{
+  "ID": "bvgd2img10l05lno1iv0",
+  "Name": "mobile",
+  "Attrs": {},
+  "ParentID": "bvgd0heg10l05lno1ip0",
+  "Children": [
+    [
+      "bvgd2img10l05lno1j00",
+      "index"
+    ]
+  ],
+  "Components": [
+    {
+      "ObjectID": "bvgd2img10l05lno1iv0",
+      "ID": "bvgd2img10l05lno1ivg",
+      "Name": "zt100.App",
+      "Enabled": true,
+      "Attrs": null,
+      "Value": {
+        "Name": "mobile",
+        "OID": "bvgd2img10l05lno1iv0"
+      },
+      "Refs": null
+    }
+  ],
+  "Main": ""
+}
