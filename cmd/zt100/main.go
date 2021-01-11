@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/progrium/zt100"
 
@@ -68,6 +69,8 @@ type Bootstrapper struct {
 }
 
 func (b *Bootstrapper) InitializeDaemon() (err error) {
+	os.MkdirAll("local/uploads", 0755)
+
 	sys := b.Objects.Root.ChildAt(0)
 	if len(sys.Children()) == 0 && len(sys.Components()) == 0 {
 		obj, refs, err := image.FromSnapshot(manifold.ObjectSnapshot{

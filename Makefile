@@ -12,7 +12,7 @@ setup: ## setup project workspace
 .PHONY: setup
 
 dev: ## run dev server
-	source $(shell pwd)/.env && IMAGE_DIR=local go run cmd/zt100/main.go
+	IMAGE_DIR=local go run cmd/zt100/main.go
 .PHONY: dev
 
 image: ## build docker container

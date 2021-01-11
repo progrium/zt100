@@ -6,9 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"path"
 	"path/filepath"
-	"runtime"
 	"text/template"
 
 	"github.com/gorilla/mux"
@@ -48,8 +46,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	m.HandleFunc("/preview/{demo}/{app}/{page}", s.preview)
 	m.HandleFunc("/preview/{demo}/{app}/{page}/{block}.js", s.block)
 	m.PathPrefix("/feature/{feature}").HandlerFunc(s.feature)
-	m.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(localpath("../../static")))))
-	//m.PathPrefix("/uploads").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir(localpath("../../local/uploads")))))
+	m.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	m.PathPrefix("/uploads").Handler(http.StripPrefix("/uploads/", http.FileServer(http.Dir("local/uploads"))))
 	m.Handle("/preview/{demo}/{app}", http.RedirectHandler(fmt.Sprintf("%s/index", r.URL.Path), 302))
 	m.ServeHTTP(w, r)
 }
@@ -99,7 +97,7 @@ func (s *Server) Block(name string) *Block {
 
 func (s *Server) Blocks() (blocks []*Block) {
 	fs := afero.Afero{Fs: afero.NewOsFs()}
-	path := localpath("../../blocks")
+	path := "blocks"
 	dir, err := fs.ReadDir(path)
 	if err != nil {
 		panic(err)
@@ -259,10 +257,4 @@ func (s *Server) ObjectMenu(menuID string) []menu.Item {
 	default:
 		return []menu.Item{}
 	}
-}
-
-func localpath(subpath string) string {
-	_, filename, _, _ := runtime.Caller(1)
-	dir, _ := filepath.Abs(path.Join(path.Dir(filename), subpath))
-	return dir
 }
