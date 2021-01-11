@@ -24,8 +24,15 @@ Run this to create a deployable Docker image as `okta/zt100`:
 ```
 $ make image
 ```
-You can also run this image locally with `make docker`. 
+You can easily run this image locally with `make docker`. 
+
+### Storage
+
+A volume mounted at `/zt100` in the container will persist state.
 
 ## Integration
 
-TBD
+* handoff (make demo, delegate auth)
+* terraform endpoint
+* cmd endpoint
+* demo endpoint
