@@ -5,15 +5,25 @@ help: ## show this help
 .PHONY: help
 
 setup: ## setup project workspace 
+	mkdir -p local
 	git clone git@github.com:manifold/qtalk.git
 	@echo
 	@echo NOTICE: These directories can be replaced with symlinks if already cloned elsewhere.
 .PHONY: setup
 
 dev: ## run dev server
-	source $(shell pwd)/.env && go run cmd/zt100/main.go
-	#cd /Users/progrium/Source/github.com/manifold/tractor && source $(shell pwd)/.env && make dev WORKSITE=$(shell pwd)
+	source $(shell pwd)/.env && IMAGE_DIR=local go run cmd/zt100/main.go
 .PHONY: dev
+
+image: ## build docker container
+	mkdir -p local/build
+	GOOS=linux GOARCH=amd64 go build -o local/build/zt100 ./cmd/zt100
+	docker build -t okta/zt100 .
+.PHONY: image
+
+docker: image
+	docker run -it --rm -p 8080:8080 okta/zt100
+.PHONY: docker
 
 tailwind: ## compile tailwind from config
 	mkdir _tailwind

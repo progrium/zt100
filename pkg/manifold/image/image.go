@@ -54,22 +54,9 @@ func New(filepath string) *Image {
 	}
 }
 
-func (i *Image) Load() (manifold.Object, error) {
-	i.objFs = afero.NewBasePathFs(i.fs, ObjectDir)
-
-	if ok, err := afero.Exists(i.objFs, ObjectFile); !ok || err != nil {
-		r := object.New("::root")
-		r.AppendChild(object.New("System"))
-		return r, nil
-	}
-
-	obj, refs, err := i.loadObject(i.objFs, "/")
-	if err != nil {
-		return nil, err
-	}
-
+func ApplyRefs(root manifold.Object, refs []manifold.SnapshotRef) {
 	for _, ref := range refs {
-		src := obj.FindID(ref.ObjectID)
+		src := root.FindID(ref.ObjectID)
 		if src == nil {
 			log.Printf("no object found for snapshot ref at %s", ref.ObjectID)
 			continue
@@ -80,7 +67,7 @@ func (i *Image) Load() (manifold.Object, error) {
 		if len(parts) > 1 {
 			comKey = parts[1]
 		}
-		dst := obj.FindID(objID)
+		dst := root.FindID(objID)
 		if dst == nil {
 			log.Printf("no object found for snapshot ref target at %s", ref.TargetID)
 			continue
@@ -106,20 +93,43 @@ func (i *Image) Load() (manifold.Object, error) {
 		}
 		src.SetField(ref.Path, ptr.Interface())
 	}
+}
+
+func (i *Image) Load() (manifold.Object, error) {
+	i.objFs = afero.NewBasePathFs(i.fs, ObjectDir)
+
+	if ok, err := afero.Exists(i.objFs, ObjectFile); !ok || err != nil {
+		r := object.New("::root")
+		r.AppendChild(object.New("System"))
+		return r, nil
+	}
+
+	obj, refs, err := i.loadObject(i.objFs, "/")
+	if err != nil {
+		return nil, err
+	}
+	ApplyRefs(obj, refs)
 
 	err = manifold.Walk(obj, func(o manifold.Object) error {
 		if err := o.UpdateRegistry(); err != nil {
 			return err
 		}
-		// for _, c := range o.Components() {
-		// 	if err := c.Reload(); err != nil {
-		// 		return err
-		// 	}
-		// }
 		return nil
 	})
 
 	return obj, err
+}
+
+func FromSnapshot(snapshot manifold.ObjectSnapshot) (manifold.Object, []manifold.SnapshotRef, error) {
+	obj := object.FromSnapshot(snapshot)
+	refs := library.LoadComponents(obj, snapshot)
+	err := manifold.Walk(obj, func(o manifold.Object) error {
+		if err := o.UpdateRegistry(); err != nil {
+			return err
+		}
+		return nil
+	})
+	return obj, refs, err
 }
 
 func (i *Image) loadObject(fs afero.Fs, path string) (manifold.Object, []manifold.SnapshotRef, error) {

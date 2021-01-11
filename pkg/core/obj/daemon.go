@@ -19,15 +19,19 @@ func (s *Service) InitializeDaemon() (err error) {
 	if err != nil {
 		return err
 	}
+	if os.Getenv("IMAGE_DIR") != "" {
+		wd = os.Getenv("IMAGE_DIR")
+	}
 	if dirExists(filepath.Join(wd, ".tractor")) {
 		wd = filepath.Join(wd, ".tractor")
 	}
-
 	s.Image = image.New(wd)
 
-	s.Root, err = s.Image.Load()
-	if err != nil {
-		return err
+	if s.Root == nil {
+		s.Root, err = s.Image.Load()
+		if err != nil {
+			return err
+		}
 	}
 
 	comutil.Root = s.Root

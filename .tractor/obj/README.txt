@@ -1,1 +1,0 @@
-Manifold objects are stored here.
