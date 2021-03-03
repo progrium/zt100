@@ -33,6 +33,5 @@ A volume mounted at `/zt100` in the container will persist state.
 ## Integration
 
 * handoff (make demo, delegate auth)
-* terraform endpoint
 * cmd endpoint
 * demo endpoint
